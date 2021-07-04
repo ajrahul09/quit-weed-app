@@ -14,27 +14,16 @@ const userSchema = new mongoose.Schema({
         // data: Buffer,
         // contentType: String
     // },
-    smokingTimesPerDay: {
-        type: Number, 
-        min: 0
-    },
-    smokingTimesPerWeek: {
-        type: Number, 
-        min: 0
-    },
-    smokingCostPerWeek: {
-        type: Number, 
-        min: 0
-    },
-    soberDate: {
-        type: Date,
-    },
+    smokingTimesPerDay: Number,
+    smokingTimesPerWeek: Number,
+    smokingCostPerWeek: Number,
+    soberDate: Date,
     createdTime: {
-        type: Date
-    },
-    modifiedTime: {
         type: Date,
         default: Date.now
+    },
+    modifiedTime: {
+        type: Date
     }
 })
 

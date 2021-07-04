@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 
 // Import routes
 const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
 const profileRoute = require('./routes/profile');
+const dailyLogRoute = require('./routes/dailyLog');
 
 dotenv.config();
 
@@ -21,8 +21,8 @@ mongoose.connect(
 app.use(express.json());
 //Route Middlewares
 app.use('/api/user', authRoute);
-app.use('/api/posts', postRoute);
 app.use('/api/profiles', profileRoute);
+app.use('/api/dailyLog', dailyLogRoute);
 
 app.listen(3000, () => console.log('Server Up and running'));
 

@@ -33,7 +33,30 @@ const newProfileValidation = data => {
         quittingReason: Joi.string(),
         smokingTimesPerDay: Joi.number(),
         smokingTimesPerWeek: Joi.number(),
-        smokingCostPerWeek: Joi.number()
+        smokingCostPerWeek: Joi.number(),
+        soberDate: Joi.date()
+    });
+
+    // Let's validate the user before we save a user
+    return schema.validate(data);
+    
+}
+
+// Register profile validation
+const dailyLogValidation = data => {
+    const schema = Joi.object({
+        userId: Joi.string().required(),
+        cravings: Joi.number(),
+        irritability: Joi.number(),
+        anxiety: Joi.number(),
+        insomnia: Joi.number(),
+        appetiteLoss: Joi.number(),
+        moodSwings: Joi.number(),
+        depression: Joi.number(),
+        coldSweats: Joi.number(),
+        confidence: Joi.number(),
+        happiness: Joi.number(),
+        motivation: Joi.number(),
     });
 
     // Let's validate the user before we save a user
@@ -44,3 +67,4 @@ const newProfileValidation = data => {
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.newProfileValidation = newProfileValidation;
+module.exports.dailyLogValidation = dailyLogValidation;

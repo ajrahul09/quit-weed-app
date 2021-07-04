@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Profile = require('../model/Profile');
 const User = require('../model/User');
+const DailyLog = require('../model/DailyLog')
 const verify = require('./verifyToken');
 const { newProfileValidation } = require('../validation');
 
@@ -50,11 +51,17 @@ router.post('/', async (req, res) => {
             smokingTimesPerDay: req.body.smokingTimesPerDay,
             smokingTimesPerWeek: req.body.smokingTimesPerWeek,
             smokingCostPerWeek: req.body.smokingCostPerWeek,
-            soberDate: req.body.soberDate,
-            createdTime: Date.now()
+            soberDate: req.body.soberDate
+        })
+
+        const dailyLog = new DailyLog({
+            userId: userId,
+            dailyLog: []
         })
 
         const savedProfile = await profile.save();
+        const savedDailyLog = await dailyLog.save();
+
         res.json(savedProfile);
 
     } catch (err) {
@@ -89,7 +96,7 @@ router.get('/:userIdParam', async (req, res) => {
 
 // Update a specific profile
 router.patch('/:userIdParam', async (req, res) => {
-    let userId = req.params.userIdParam;
+    const userId = req.params.userIdParam;
 
     const existingProfile = await Profile.findOne({
         userId: userId
