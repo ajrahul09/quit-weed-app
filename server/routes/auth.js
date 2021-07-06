@@ -50,6 +50,7 @@ router.post('/login', async (req, res) => {
 
     // Let's validate the user before we save a user
     const {error} = loginValidation(req.body);
+    
     if (error) {
         return res.status(400).send(error.details[0].message)
     }
