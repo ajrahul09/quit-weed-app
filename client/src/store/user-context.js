@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 const AuthContext = React.createContext({
     isLoading: false,
     registrationComplete: false,
+    user: {},
     isLoggedIn: false,
     onLogout: () => { },
     onLogin: (email, password) => { },
@@ -14,9 +15,11 @@ export const AuthContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [registrationComplete, setRegistrationComplete] = useState(false);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
-        if (localStorage.getItem('auth-token')) {
+        if (localStorage.getItem('user')) {
+            setUser(JSON.parse(localStorage.getItem('user')));
             setIsLoggedIn(true);
         }
         setIsLoading(false);
@@ -45,9 +48,10 @@ export const AuthContextProvider = (props) => {
                 throw new Error('Something went wrong!');
             }
 
-            const data = await response.text();
+            const data = await response.json();
 
-            localStorage.setItem('auth-token', data);
+            localStorage.setItem('user', JSON.stringify(data));
+            setUser(data);
             setIsLoggedIn(true);
         } catch (err) {
             console.log(err);
@@ -57,7 +61,7 @@ export const AuthContextProvider = (props) => {
     };
 
     const logoutHandler = () => {
-        localStorage.removeItem('auth-token');
+        localStorage.removeItem('user');
         setIsLoggedIn(false);
         setIsLoading(false);
     };
@@ -101,6 +105,7 @@ export const AuthContextProvider = (props) => {
         <AuthContext.Provider value={{
             isLoading: isLoading,
             registrationComplete: registrationComplete,
+            user: user,
             isLoggedIn: isLoggedIn,
             onLogout: logoutHandler,
             onLogin: loginHandler,

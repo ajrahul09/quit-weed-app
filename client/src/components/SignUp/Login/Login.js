@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 
-import AuthContext from '../../store/user-context';
-import Card from '../UI/Card/Card';
+import AuthContext from '../../../store/user-context';
+import Card from '../../UI/Card/Card';
 import classes from './Login.module.css';
-import Button from '../UI/Button/Button';
-import Input from '../UI/Input/Input'
+import Button from '../../UI/Button/Button';
+import Input from '../../UI/Input/Input'
 
 const emailReducer = (state, action) => {
   if (action.type === 'EMAIL_CHANGE') {

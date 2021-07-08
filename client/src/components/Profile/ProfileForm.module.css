@@ -1,11 +1,11 @@
-.register {
+.profileForm {
     width: 90%;
     max-width: 30rem;
     margin: 2rem auto;
     padding: 2rem;
   }
   
-  .actions {
+.actions {
     text-align: center;
-  }
+}
   

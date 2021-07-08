@@ -1,19 +1,63 @@
-import React, {useContext} from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import AuthContext from '../../store/user-context';
-
-import Button from '../UI/Button/Button';
-import Card from '../UI/Card/Card';
-import classes from './Home.module.css';
+import ProfileForm from '../Profile/ProfileForm';
+import Dashboard from '../Dashboard/Dashboard';
 
 const Home = (props) => {
 
   const authCtx = useContext(AuthContext);
+  const user = authCtx.user;
+
+  const [profile, setProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchProfileHandler = useCallback(async () => {
+
+    setIsLoading(true);
+
+    try {
+      const requestOptions = {
+        mode: 'cors',
+        method: 'GET',
+        headers: {
+          'auth-token': user.token,
+          'Accept': '*/*',
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const response =
+        await fetch('http://localhost:3000/api/profiles/' + user.userId,
+          requestOptions);
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      const profileData = await response.json();
+      setProfile(profileData);
+
+    } catch (err) {
+      console.log(err);
+    }
+    setIsLoading(false);
+
+  }, [user.token, user.userId]);
+
+  useEffect(() => {
+    fetchProfileHandler();
+  }, [fetchProfileHandler]);
+
+  const profileSubmissionHandler = (submittedProfile) => {
+    setProfile(submittedProfile);
+  }
 
   return (
-    <Card className={classes.home}>
-      <h1>Welcome back!</h1>
-      <Button onClick={authCtx.onLogout}>Logout</Button>
-    </Card>
+    <>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && !profile.userId && <ProfileForm submitProfile={profileSubmissionHandler} />}
+      {!isLoading && profile.userId && <Dashboard profile={profile} /> }
+    </>
   );
 };
 

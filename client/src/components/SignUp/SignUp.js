@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import Login from '../Login/Login'
-import Register from '../Register/Register'
+import Login from './Login/Login'
+import Register from './Register/Register'
 import AuthContext from '../../store/user-context';
 
 const SignUp = () => {
