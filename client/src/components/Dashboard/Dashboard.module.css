@@ -1,0 +1,57 @@
+.elapsedSoberTimeContainer {
+    background-image: url("../../assets/new-path-jouney.png");
+    background-position: center;
+    text-align: center;
+    color: white;
+    padding: 3em;
+    height: 16em;
+}
+
+.elapsedSoberTime {
+    font-weight: bold;
+    font-size: 3em;
+    padding: 0.5em;
+}
+
+.smokeFreeHeading {
+    font-size: 1.8em;
+}
+
+.moneySavedContainer {
+    text-align: center;
+    padding: 2em;
+}
+
+.moneySaved {
+    font-weight: bold;
+    font-size: 3em;
+    padding: 0.1em;
+    color: green;
+}
+
+.moneySavedLabel {
+    font-size: 1.2em;
+}
+
+.quittingReasonContainer {
+    text-align: center;
+    padding: 2em;
+}
+
+.quittingReasonLabel {
+    font-size: 1.2em;
+}
+
+.quittingReason {
+    padding: 0.1em 0.1em 0.3em 0.1em;
+    font-size: 2.5em;
+    color: green;
+    font-weight: bold;
+}
+
+.quittingReasonQuote {    
+    text-transform: capitalize;
+    text-decoration: underline;
+    font-style: italic;
+    color: #616161;
+}

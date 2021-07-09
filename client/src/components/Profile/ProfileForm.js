@@ -17,6 +17,8 @@ const ProfileForm = (props) => {
     const [smokingCostPerWeek, setSmokingCostPerWeek] = useState(0);
     const [soberDate, setSoberDate] = useState('');
 
+    let dateToday = new Date().toISOString().split(".")[0];
+
     const submitHandler = async (event) => {
         event.preventDefault();
         let body = {
@@ -107,6 +109,7 @@ const ProfileForm = (props) => {
                     id="soberDate"
                     label="Sober Date"
                     type="datetime-local"
+                    max={dateToday}
                     onChange={soberDateHandler}
                 />
                 <br />
