@@ -1,4 +1,5 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import AuthContext from '../../store/user-context';
 import classes from './Navigation.module.css';
@@ -12,12 +13,22 @@ const Navigation = () => {
       <ul>
         {ctx.isLoggedIn && (
           <li>
-            <a href="/">Dashboard</a>
+            <Link to="/home">Home</Link>
           </li>
         )}
         {ctx.isLoggedIn && (
           <li>
-            <a href="/">Cravings</a>
+            <Link to="/cravings">Cravings</Link>
+          </li>
+        )}
+        {!ctx.isLoggedIn && (
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        )}
+        {!ctx.isLoggedIn && (
+          <li>
+            <Link to="/register">Register</Link>
           </li>
         )}
         {ctx.isLoggedIn && (

@@ -1,12 +1,14 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import classes from './MainHeader.module.css';
 
 const MainHeader = (props) => {
   return (
     <header className={classes['main-header']}>
-      <h1>Quit Weed</h1>
+      <h1>
+        <Link to="/">Quit Weed</Link>
+      </h1>
       <Navigation />
     </header>
   );

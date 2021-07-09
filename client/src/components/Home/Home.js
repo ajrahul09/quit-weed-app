@@ -6,6 +6,7 @@ import Dashboard from '../Dashboard/Dashboard';
 const Home = (props) => {
 
   const authCtx = useContext(AuthContext);
+
   const user = authCtx.user;
 
   const [profile, setProfile] = useState({});
@@ -56,7 +57,7 @@ const Home = (props) => {
     <>
       {isLoading && <p>Loading...</p>}
       {!isLoading && !profile.userId && <ProfileForm submitProfile={profileSubmissionHandler} />}
-      {!isLoading && profile.userId && <Dashboard profile={profile} /> }
+      {!isLoading && profile.userId && <Dashboard profile={profile} />}
     </>
   );
 };

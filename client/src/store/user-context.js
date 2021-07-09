@@ -6,7 +6,7 @@ const AuthContext = React.createContext({
     user: {},
     isLoggedIn: false,
     onLogout: () => { },
-    onLogin: (email, password) => { },
+    onLogin: (email, password, callback) => { },
     onRegister: (name, email, password) => { },
 })
 
@@ -25,9 +25,9 @@ export const AuthContextProvider = (props) => {
         setIsLoading(false);
     }, [])
 
-    const loginHandler = async (email, password) => {
+    const loginHandler = async (email, password, callback) => {
 
-        setIsLoading(true);
+        // setIsLoading(true);
 
         try {
             const requestOptions = {
@@ -53,11 +53,13 @@ export const AuthContextProvider = (props) => {
             localStorage.setItem('user', JSON.stringify(data));
             setUser(data);
             setIsLoggedIn(true);
+            
+            callback();
         } catch (err) {
             console.log(err);
         }
         setRegistrationComplete(false);
-        setIsLoading(false);
+        // setIsLoading(false);
     };
 
     const logoutHandler = () => {

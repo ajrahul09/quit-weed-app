@@ -82,6 +82,10 @@ const Register = (props) => {
     props.login();
   };
 
+  const switchToLogin = () => {
+    return props.history.push("/login");
+  }
+
   return (
     <Card className={classes.register}>
       <form onSubmit={submitHandler}>
@@ -117,7 +121,7 @@ const Register = (props) => {
         </div>
         <div>
           <p>If you're already a user, &nbsp;
-            <span onClick={props.login}>
+            <span onClick={switchToLogin}>
               Login here
             </span>
           </p>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 
+import { withRouter } from 'react-router';
+
 import AuthContext from '../../../store/user-context';
 import Card from '../../UI/Card/Card';
 import classes from './Login.module.css';
@@ -72,8 +74,17 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    authCtx.onLogin(emailEntered.value, passEntered.value);
+    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToHome);
   };
+
+  const navigateToHome = () => {
+    return props.history.push("/home");
+  }
+
+  const switchToRegister = () => {
+    return props.history.push("/register");
+  }
+
 
   return (
     <Card className={classes.login}>
@@ -103,7 +114,7 @@ const Login = (props) => {
         </div>
         <div>
           <p>If you are a new user,&nbsp;
-            <span onClick={props.register}>
+            <span onClick={switchToRegister}>
               Register here
             </span>
           </p>
@@ -113,4 +124,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

@@ -1,10 +1,16 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import AuthContext from './store/user-context';
 import Home from './components/Home/Home';
-import SignUp from './components/SignUp/SignUp';
+import Dashboard from './components/Dashboard/Dashboard';
+import Login from './components/SignUp/Login/Login';
+import Register from './components/SignUp/Register/Register';
 import MainHeader from './components/MainHeader/MainHeader';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
 
 import './App.css';
+import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
 
@@ -12,12 +18,22 @@ function App() {
 
   return (
     <React.Fragment>
-      <MainHeader />
-      <main>
-        {authCtx.isLoading && <p>Loading...</p>}
-        {!authCtx.isLoading && !authCtx.isLoggedIn && <SignUp />}
-        {!authCtx.isLoading && authCtx.isLoggedIn && <Home />}
-      </main>
+      <Router>
+        <MainHeader />
+
+        <main>
+          <Switch>
+            <PublicRoute path="/login" restricted={true} component={Login} />
+            <PublicRoute path="/register" restricted={true} component={Register} />
+            <PublicRoute path="/" exact restricted={false} component={LandingPage} />
+            
+            <PrivateRoute path="/home" exact component={Home} />
+            
+            <Route path="*" component={() => "404 not found"} />
+          </Switch>
+        </main>
+
+      </Router>
     </React.Fragment>
   );
 }
