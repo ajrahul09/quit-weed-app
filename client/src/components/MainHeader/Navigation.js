@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthContext from '../../store/user-context';
+import AuthContext from '../../contexts/user-context';
 import classes from './Navigation.module.css';
 
 const Navigation = () => {
@@ -13,7 +13,7 @@ const Navigation = () => {
       <ul>
         {ctx.isLoggedIn && (
           <li>
-            <Link to="/home">Home</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
         )}
         {ctx.isLoggedIn && (

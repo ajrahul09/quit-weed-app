@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import AuthContext from './store/user-context';
 import Home from './components/Home/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/SignUp/Login/Login';
@@ -14,8 +13,6 @@ import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
 
-  const authCtx = useContext(AuthContext);
-
   return (
     <React.Fragment>
       <Router>
@@ -28,6 +25,7 @@ function App() {
             <PublicRoute path="/" exact restricted={false} component={LandingPage} />
             
             <PrivateRoute path="/home" exact component={Home} />
+            <PrivateRoute path="/dashboard" exact component={Dashboard} />
             
             <Route path="*" component={() => "404 not found"} />
           </Switch>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 
-import AuthContext from '../../../store/user-context';
+import AuthContext from '../../../contexts/user-context';
 import Card from '../../UI/Card/Card';
 import classes from './Register.module.css';
 import Button from '../../UI/Button/Button';

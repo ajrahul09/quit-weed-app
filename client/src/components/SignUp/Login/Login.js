@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useContext } from 'react';
 
 import { withRouter } from 'react-router';
 
-import AuthContext from '../../../store/user-context';
+import AuthContext from '../../../contexts/user-context';
 import Card from '../../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../../UI/Button/Button';
@@ -74,11 +74,11 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToHome);
+    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToDashboard);
   };
 
-  const navigateToHome = () => {
-    return props.history.push("/home");
+  const navigateToDashboard = () => {
+    return props.history.push("/dashboard");
   }
 
   const switchToRegister = () => {

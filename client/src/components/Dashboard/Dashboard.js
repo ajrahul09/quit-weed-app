@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
+import ApiContext from '../../contexts/api-context';
 import styles from './Dashboard.module.css';
 
 
 const Dashboard = (props) => {
+
+    const apiCtx = useContext(ApiContext);
+    const profile = apiCtx.profile;
 
     const {
         quittingReason,
@@ -10,7 +14,7 @@ const Dashboard = (props) => {
         smokingTimesPerWeek,
         smokingCostPerWeek,
         soberDate
-    } = props.profile;
+    } = profile;
 
     const [elapsedSoberDate, setElapsedSoberDate] = useState("");
     const [moneySavedTillNow, setMoneySavedTillNow] = useState("");
@@ -44,22 +48,24 @@ const Dashboard = (props) => {
     }, [soberDate]);
 
     const moneySaved = useCallback(() => {
-            let timeDiff = Date.now() - Date.parse(soberDate);
-            let millisecondsInADay = 1000 * 60 * 60 * 24;
-            let smokingCostPerDay = smokingCostPerWeek / 7;
+        let timeDiff = Date.now() - Date.parse(soberDate);
+        let millisecondsInADay = 1000 * 60 * 60 * 24;
+        let smokingCostPerDay = smokingCostPerWeek / 7;
 
-            let moneySaved = timeDiff / millisecondsInADay * smokingCostPerDay;
-            setMoneySavedTillNow(moneySaved.toFixed(2));
+        let moneySaved = timeDiff / millisecondsInADay * smokingCostPerDay;
+        setMoneySavedTillNow(moneySaved.toFixed(2));
 
 
-            let moneySavedPerYear = smokingCostPerWeek * 52;
-            setMoneySavedPerYear(moneySavedPerYear.toFixed(2));
+        let moneySavedPerYear = smokingCostPerWeek * 52;
+        setMoneySavedPerYear(moneySavedPerYear.toFixed(2));
     }, [smokingCostPerWeek, soberDate]);
 
 
     useEffect(() => {
-        timeElapsedSoberDate();
-        moneySaved();
+        if (Object.keys(profile).length > 0) {
+            timeElapsedSoberDate();
+            moneySaved();
+        }
     }, [timeElapsedSoberDate, moneySaved]);
 
     return (

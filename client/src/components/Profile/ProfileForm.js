@@ -2,14 +2,13 @@ import React, { useState, useContext } from 'react';
 
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
-import AuthContext from '../../store/user-context';
+import ApiContext from '../../contexts/api-context';
 
 import classes from './ProfileForm.module.css'
 
 const ProfileForm = (props) => {
 
-    const authCtx = useContext(AuthContext);
-    const user = authCtx.user;
+    const apiCtx = useContext(ApiContext);
 
     const [quittingReason, setQuittingReason] = useState('');
     const [smokingTimesPerDay, setSmokingTimesPerDay] = useState(0);
@@ -21,41 +20,14 @@ const ProfileForm = (props) => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        let body = {
-            userId: user.userId,
+        let params = {
             quittingReason: quittingReason,
             smokingTimesPerDay: smokingTimesPerDay,
             smokingTimesPerWeek: smokingTimesPerWeek,
             smokingCostPerWeek: smokingCostPerWeek,
             soberDate: soberDate
         }
-
-        console.log(body);
-        try {
-            const requestOptions = {
-                mode: 'cors',
-                method: 'POST',
-                headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            };
-
-            const response =
-                await fetch('http://localhost:3000/api/profiles',
-                    requestOptions);
-
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
-            }
-
-            const data = await response.json();
-
-            props.submitProfile(data);
-        } catch (err) {
-            console.log(err);
-        }
+        apiCtx.saveProfile(params);
     }
 
     const quittingReasonHandler = (event) => {
@@ -77,6 +49,10 @@ const ProfileForm = (props) => {
     const soberDateHandler = (event) => {
         setSoberDate(event.target.value);
     };
+
+    // const navigateToDashboard = () => {
+    //     return props.history.push("/dashboard");
+    // }
 
     return (
         <div className={classes.profileForm}>

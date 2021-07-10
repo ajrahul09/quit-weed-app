@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {AuthContextProvider} from './store/user-context';
+import { AuthContextProvider } from './contexts/user-context';
+import { ApiContextProvider } from './contexts/api-context';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <AuthContextProvider>
-    <App />
+    <ApiContextProvider>
+      <App />
+    </ApiContextProvider>
   </AuthContextProvider>,
   document.getElementById('root')
 );
