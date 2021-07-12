@@ -10,7 +10,9 @@ router.get('/', async (req, res) => {
         const dailyLogs = await DailyLog.find();
         res.json(dailyLogs);
     } catch (err) {
-        res.json({ message: err })
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -19,7 +21,7 @@ router.get('/:userIdParam', async (req, res) => {
 
     const userId = req.params.userIdParam;
     if (!userId) {
-        return res.status(400).json({
+        return res.status(403).json({
             message: 'UserId query param missing in the request'
         });
     }
@@ -29,13 +31,15 @@ router.get('/:userIdParam', async (req, res) => {
             userId: userId
         })
         if (!existingDailyLog) {
-            return res.status(400).json({
+            return res.status(403).json({
                 message: 'No Daily Log exists for userId: ' + userId
             });
         }
         res.json(existingDailyLog);
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -50,7 +54,7 @@ router.patch('/:userIdParam', async (req, res) => {
             userId: userId
         })
         if (!dailyLogExists) {
-            return res.status(400).json({
+            return res.status(403).json({
                 message: 'No dailyLog exists for userId: ' + userId
                     + '. Create a profile before updating the dailyLog.'
             });
@@ -80,7 +84,9 @@ router.patch('/:userIdParam', async (req, res) => {
         return res.json(savedDailyLog);
 
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 

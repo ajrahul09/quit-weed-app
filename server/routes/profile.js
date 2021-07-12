@@ -11,7 +11,9 @@ router.get('/', async (req, res) => {
         const profiles = await Profile.find();
         res.json(profiles);
     } catch (err) {
-        res.json({ message: err })
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -21,7 +23,7 @@ router.post('/', async (req, res) => {
     // Let's validate the profile before we save
     const { error } = newProfileValidation(req.body);
     if (error) {
-        return res.status(400).send(error.details[0].message)
+        return res.status(403).send(error.details[0].message)
     }
 
     const userId = req.body.userId;
@@ -29,7 +31,7 @@ router.post('/', async (req, res) => {
     try {
         const userExists = await User.findById(userId);
         if (!userExists) {
-            return res.status(400).json(
+            return res.status(403).json(
                 {
                     message: 'User with userId: ' + userId +
                         ' doesn\'t exists!'
@@ -40,7 +42,7 @@ router.post('/', async (req, res) => {
             userId: userId
         })
         if (profileExists) {
-            return res.status(400).json({
+            return res.status(403).json({
                 message: 'Profile with userId: ' + userId +
                     ' already exists!'
             });
@@ -65,7 +67,9 @@ router.post('/', async (req, res) => {
         res.json(savedProfile);
 
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -74,7 +78,7 @@ router.get('/:userIdParam', async (req, res) => {
 
     const userId = req.params.userIdParam;
     if (!userId) {
-        return res.status(400).json({
+        return res.status(403).json({
             message: 'UserId query param missing in the request'
         });
     }
@@ -84,13 +88,15 @@ router.get('/:userIdParam', async (req, res) => {
             userId: userId
         })
         if (!existingProfile) {
-            return res.status(400).json({
+            return res.status(403).json({
                 message: 'No profile exists for userId: ' + userId
             });
         }
         res.json(existingProfile);
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -103,7 +109,7 @@ router.patch('/:userIdParam', async (req, res) => {
     })
 
     if (!existingProfile) {
-        return res.status(400).json({
+        return res.status(403).json({
             message: 'No profile exists for userId: ' + userId
         });
     }
@@ -122,7 +128,9 @@ router.patch('/:userIdParam', async (req, res) => {
             message: 'Profile updated for userId: ' + userId
         });
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
@@ -135,7 +143,7 @@ router.patch('/soberDate/:userIdParam', async (req, res) => {
     })
 
     if (!existingProfile) {
-        return res.status(400).json({
+        return res.status(403).json({
             message: 'No profile exists for userId: ' + userId
         });
     }
@@ -151,7 +159,9 @@ router.patch('/soberDate/:userIdParam', async (req, res) => {
             message: 'Sober date updated for userId: ' + userId
         });
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
     }
 })
 
