@@ -18,6 +18,11 @@ const Navigation = () => {
         )}
         {ctx.isLoggedIn && (
           <li>
+            <Link to="/dailyLog">DailyLog</Link>
+          </li>
+        )}
+        {ctx.isLoggedIn && (
+          <li>
             <Link to="/cravings">Cravings</Link>
           </li>
         )}

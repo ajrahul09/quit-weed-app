@@ -14,6 +14,31 @@ router.get('/', async (req, res) => {
     }
 })
 
+// Fetch a specific DailyLog
+router.get('/:userIdParam', async (req, res) => {
+
+    const userId = req.params.userIdParam;
+    if (!userId) {
+        return res.status(400).json({
+            message: 'UserId query param missing in the request'
+        });
+    }
+
+    try {
+        const existingDailyLog = await DailyLog.findOne({
+            userId: userId
+        })
+        if (!existingDailyLog) {
+            return res.status(400).json({
+                message: 'No Daily Log exists for userId: ' + userId
+            });
+        }
+        res.json(existingDailyLog);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
 // Update a dailyLog
 router.patch('/:userIdParam', async (req, res) => {
 
@@ -48,9 +73,11 @@ router.patch('/:userIdParam', async (req, res) => {
             }
         })
 
-        return res.json({
-            message: 'DailyLog updated for userId: ' + userId
-        });
+        const savedDailyLog = await DailyLog.findOne({
+            userId: userId
+        })
+
+        return res.json(savedDailyLog);
 
     } catch (err) {
         res.status(400).send(err);

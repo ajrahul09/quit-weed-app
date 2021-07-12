@@ -16,6 +16,7 @@ const Input = (props) => {
                 onChange={props.onChange}
                 onBlur={props.onBlur}
                 max={props.max}
+                min={props.min}
             />
         </div>
     )

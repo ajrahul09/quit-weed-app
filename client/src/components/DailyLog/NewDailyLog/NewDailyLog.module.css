@@ -1,0 +1,28 @@
+.newDailyLogContainer {
+    width: 60%;
+    max-width: 30rem;
+    margin: 2rem auto;
+}
+
+.dailyLogImage {
+    background-image: url("../../../assets/coffee-daily-log.jpg");
+    background-position: center;
+    height: 212px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.dailyLogButton {
+    text-align: center;
+    padding: 10px;
+}
+
+.addNewLogDiv {    
+    padding: 3rem 2rem 4rem 3rem;
+    width: 100%;
+    overflow: auto;
+}
+
+.addNewLogButton {
+    float: right;
+}

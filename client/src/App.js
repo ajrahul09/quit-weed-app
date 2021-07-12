@@ -10,6 +10,7 @@ import PublicRoute from './routes/PublicRoute';
 
 import './App.css';
 import LandingPage from './components/LandingPage/LandingPage';
+import DailyLog from './components/DailyLog/DailyLog';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             
             <PrivateRoute path="/home" exact component={Home} />
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
+            <PrivateRoute path="/dailyLog" exact component={DailyLog} />
             
             <Route path="*" component={() => "404 not found"} />
           </Switch>

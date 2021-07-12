@@ -5,7 +5,8 @@ const ApiContext = React.createContext({
     profile: {},
     dailyLog: {},
     isLoading: false,
-    saveProfile: (params, callback) => {}
+    saveProfile: (params, callback) => {},
+    updateDailyLog: (params, callback) => {}
 })
 
 export const ApiContextProvider = (props) => {
@@ -20,9 +21,12 @@ export const ApiContextProvider = (props) => {
     useEffect(() => {
         if (authCtx.isLoggedIn) {
             fetchProfileHandler();
+            fetchDailyLog();
         }
     }, [authCtx.isLoggedIn])
 
+
+    // FETCH PROFILE
     const fetchProfileHandler = useCallback(async () => {
 
         setIsLoading(true);
@@ -57,7 +61,7 @@ export const ApiContextProvider = (props) => {
     }, [user.token, user.userId]);
 
 
-    // SAVE PROFILE DATA
+    // SAVE PROFILE
     const saveProfile = async (params, callback) => {
         let body = {
             userId: user.userId,
@@ -68,7 +72,6 @@ export const ApiContextProvider = (props) => {
             soberDate: params.soberDate
         }
 
-        console.log(body);
         try {
             const requestOptions = {
                 mode: 'cors',
@@ -92,6 +95,81 @@ export const ApiContextProvider = (props) => {
 
             setProfile(data);
 
+            fetchDailyLog();
+
+            // callback();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    // FETCH DAILYLOG
+    const fetchDailyLog = useCallback(async () => {
+
+        setIsLoading(true);
+
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'GET',
+                headers: {
+                    'auth-token': user.token,
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response =
+                await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
+                    requestOptions);
+
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+
+            const dailyLogData = await response.json();
+            setDailyLog(dailyLogData);
+            console.log(dailyLog);
+
+        } catch (err) {
+            console.log(err);
+        }
+        setIsLoading(false);
+
+    }, [user.token, user.userId]);
+
+
+    // UPDATE DAILY LOG
+    const updateDailyLog = async (params, callback) => {
+        let body = {
+            cravings: params.cravings,
+            irritability: params.irritability
+        }
+
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'PATCH',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            const response =
+                await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
+                    requestOptions);
+
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+
+            const data = await response.json();
+
+            setDailyLog(data);
+
             // callback();
         } catch (err) {
             console.log(err);
@@ -103,7 +181,8 @@ export const ApiContextProvider = (props) => {
             profile: profile,
             dailyLog: dailyLog,
             isLoading: isLoading,
-            saveProfile: saveProfile
+            saveProfile: saveProfile,
+            updateDailyLog: updateDailyLog
         }}
         >
             {props.children}

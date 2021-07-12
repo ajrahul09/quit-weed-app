@@ -74,11 +74,11 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToDashboard);
+    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToHome);
   };
 
-  const navigateToDashboard = () => {
-    return props.history.push("/dashboard");
+  const navigateToHome = () => {
+    return props.history.push("/home");
   }
 
   const switchToRegister = () => {
