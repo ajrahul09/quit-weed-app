@@ -5,8 +5,8 @@ const ApiContext = React.createContext({
     profile: {},
     dailyLog: {},
     isLoading: false,
-    saveProfile: (params, callback) => {},
-    updateDailyLog: (params, callback) => {}
+    saveProfile: (params) => { },
+    updateDailyLog: (params) => { }
 })
 
 export const ApiContextProvider = (props) => {
@@ -62,7 +62,7 @@ export const ApiContextProvider = (props) => {
 
 
     // SAVE PROFILE
-    const saveProfile = async (params, callback) => {
+    const saveProfile = async (params) => {
         let body = {
             userId: user.userId,
             quittingReason: params.quittingReason,
@@ -87,19 +87,18 @@ export const ApiContextProvider = (props) => {
                 await fetch('http://localhost:3000/api/profiles',
                     requestOptions);
 
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
-            }
-
             const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
 
             setProfile(data);
 
-            fetchDailyLog();
+            return fetchDailyLog();
 
-            // callback();
         } catch (err) {
-            console.log(err);
+            return {message: err.message, ok:false};
         }
     }
 
@@ -124,27 +123,39 @@ export const ApiContextProvider = (props) => {
                 await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
                     requestOptions);
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message);
             }
 
-            const dailyLogData = await response.json();
-            setDailyLog(dailyLogData);
-            console.log(dailyLog);
+            setDailyLog(data);
+
+            setIsLoading(false);
+            return {message: "Daily Log fetched successfully", ok: true};
 
         } catch (err) {
-            console.log(err);
+            setIsLoading(false);
+            return {message: err.message, ok:false};
         }
-        setIsLoading(false);
 
     }, [user.token, user.userId]);
 
 
     // UPDATE DAILY LOG
-    const updateDailyLog = async (params, callback) => {
+    const updateDailyLog = async (params) => {
         let body = {
             cravings: params.cravings,
-            irritability: params.irritability
+            irritability: params.irritability,
+            anxiety: params.anxiety,
+            insomnia: params.insomnia,
+            appetiteLoss: params.appetiteLoss,
+            moodSwings: params.moodSwings,
+            depression: params.depression,
+            coldSweats: params.coldSweats,
+            motivation: params.motivation,
+            happiness: params.happiness,
+            confidence: params.confidence
         }
 
         try {
@@ -170,11 +181,10 @@ export const ApiContextProvider = (props) => {
 
             setDailyLog(data);
 
-            // callback();
+            return {message: "Daily Log updated successfully", ok: true}
 
-            return "Daily Log updated successfully";
         } catch (err) {
-            return err.message;
+            return {message: err.message, ok:false};
         }
     }
 

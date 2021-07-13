@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import ApiContext from '../../contexts/api-context';
 import styles from './Dashboard.module.css';
 
+import Progress from '../UI/Progress/Progress';
+
 
 const Dashboard = (props) => {
 
@@ -70,24 +72,30 @@ const Dashboard = (props) => {
 
     return (
         <>
-            <div className={styles.elapsedSoberTimeContainer}>
-                <span className={styles.smokeFreeHeading}>Time Smoke free</span>
-                <div className={styles.elapsedSoberTime}>{elapsedSoberDate}</div>
-            </div>
+            {apiCtx.isLoading && <Progress />}
 
-            <div className={styles.moneySavedContainer}>
-                <span className={styles.moneySavedLabel}>Money saved</span>
-                <div className={styles.moneySaved}>${moneySavedTillNow}</div>
-                <br />
-                <span className={styles.moneySavedLabel}>Per year</span>
-                <div className={styles.moneySaved}>${moneySavedPerYear}</div>
-            </div><hr />
+            {!apiCtx.isLoading &&
+                <div>
+                    <div className={styles.elapsedSoberTimeContainer}>
+                        <span className={styles.smokeFreeHeading}>Time Smoke free</span>
+                        <div className={styles.elapsedSoberTime}>{elapsedSoberDate}</div>
+                    </div>
 
-            <div className={styles.quittingReasonContainer}>
-                <span className={styles.quittingReasonLabel}>I'm quitting for</span>
-                <div className={styles.quittingReason}>"{quittingReason}"</div>
-                <span className={styles.quittingReasonQuote}>Once you learn to quit, it becomes a habit</span>
-            </div><hr />
+                    <div className={styles.moneySavedContainer}>
+                        <span className={styles.moneySavedLabel}>Money saved</span>
+                        <div className={styles.moneySaved}>${moneySavedTillNow}</div>
+                        <br />
+                        <span className={styles.moneySavedLabel}>Per year</span>
+                        <div className={styles.moneySaved}>${moneySavedPerYear}</div>
+                    </div><hr />
+
+                    <div className={styles.quittingReasonContainer}>
+                        <span className={styles.quittingReasonLabel}>I'm quitting for</span>
+                        <div className={styles.quittingReason}>"{quittingReason}"</div>
+                        <span className={styles.quittingReasonQuote}>Once you learn to quit, it becomes a habit</span>
+                    </div><hr />
+                </div>
+            }
         </>
     )
 }

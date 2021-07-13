@@ -15,6 +15,7 @@ const ProfileForm = (props) => {
     const [smokingTimesPerWeek, setSmokingTimesPerWeek] = useState(0);
     const [smokingCostPerWeek, setSmokingCostPerWeek] = useState(0);
     const [soberDate, setSoberDate] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     let dateToday = new Date().toISOString().split(".")[0];
 
@@ -27,7 +28,15 @@ const ProfileForm = (props) => {
             smokingCostPerWeek: smokingCostPerWeek,
             soberDate: soberDate
         }
-        apiCtx.saveProfile(params);
+
+        setIsLoading(true);
+        const response = await apiCtx.saveProfile(params);
+        setIsLoading(false);
+
+        if (!response.ok) {
+            return response.message;
+        }
+
     }
 
     const quittingReasonHandler = (event) => {
@@ -90,7 +99,10 @@ const ProfileForm = (props) => {
                 />
                 <br />
                 <div className={classes.actions}>
-                    <Button type="submit" className={classes.btn}>
+                    <Button
+                        type="submit"
+                        className={classes.btn}
+                        isLoading={isLoading}>
                         Submit Profile
                     </Button>
                 </div>

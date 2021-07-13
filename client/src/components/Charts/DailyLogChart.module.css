@@ -1,0 +1,18 @@
+.dailyLogChart_container {
+    padding: 0rem 0rem 5rem 0rem;
+}
+
+.dailyLogChart_headingDiv {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.dailyLogChart_heading {
+  color: #585858
+}
+
+.dailyLogChart_subHeading {
+  color: grey;
+  font-style: italic;
+}
+  

@@ -17,7 +17,7 @@ const NewDailyLog = (props) => {
             {props.dailyLog && props.dailyLog.length == 0 &&
                 (<Card className={styles.newDailyLogContainer}>
                     <div className={styles.dailyLogImage}></div>
-                    <div>
+                    <div className={styles.dailyLogButtonDiv}>
                         <Button
                             onClick={newDailyLogHandler}
                             className={styles.dailyLogButton}>

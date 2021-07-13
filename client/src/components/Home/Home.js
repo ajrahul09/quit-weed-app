@@ -4,6 +4,8 @@ import ProfileForm from '../Profile/ProfileForm';
 import ApiContext from '../../contexts/api-context';
 import { Redirect } from 'react-router';
 
+import Progress from '../UI/Progress/Progress'
+
 const Home = () => {
 
   const authCtx = useContext(AuthContext);
@@ -14,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      {apiCtx.isLoading && <p>Loading...</p>}
+      {apiCtx.isLoading && <Progress />}
       {!apiCtx.isLoading && !apiCtx.profile.userId && <ProfileForm />}
       {!apiCtx.isLoading && apiCtx.profile.userId && <Redirect to="/dashboard" />}
     </>

@@ -1,11 +1,28 @@
 .dailyLogForm {
-    width: 90%;
-    max-width: 30rem;
-    margin: 2rem auto;
-    padding: 2rem;
-  }
+  width: 90%;
+  max-width: 30rem;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.actions {
+  text-align: center;
+}
+
+.dailyLogFormHeadingDiv {
+  text-align: center;
+}
+
+.dailyLogFormHeading {
+  color: #585858
+}
+
+.dailyLogFormSubHeading {
+  color: grey;
+  font-style: italic;
+}
   
-  .actions {
-    text-align: center;
-  }
-  
+.formlegend {
+  font-size: 0.8em;
+  float: right;
+}
