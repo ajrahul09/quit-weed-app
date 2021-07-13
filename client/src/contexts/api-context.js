@@ -162,17 +162,19 @@ export const ApiContextProvider = (props) => {
                 await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
                     requestOptions);
 
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
-            }
-
             const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
 
             setDailyLog(data);
 
             // callback();
+
+            return "Daily Log updated successfully";
         } catch (err) {
-            console.log(err);
+            return err.message;
         }
     }
 

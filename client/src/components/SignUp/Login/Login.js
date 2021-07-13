@@ -39,6 +39,8 @@ const Login = (props) => {
 
   const { isValid: emailIsValid } = emailEntered;
   const { isValid: passIsValid } = passEntered;
+  const [isLoading, setIsLoading] = useState(false);
+  const [shakeonError, setShakeonError] = useState('');
 
   const authCtx = useContext(AuthContext);
 
@@ -72,22 +74,33 @@ const Login = (props) => {
     passDispatch({ type: 'PASS_BLUR' })
   };
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    authCtx.onLogin(emailEntered.value, passEntered.value, navigateToHome);
-  };
-
-  const navigateToHome = () => {
-    return props.history.push("/home");
+  const handleLoginError = () => {
+    setShakeonError(classes.shake);
+    setTimeout(() => {
+      setShakeonError('');
+    }, 250);
   }
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const response = await authCtx.onLogin(emailEntered.value, passEntered.value);
+    setIsLoading(false);
+
+    if(!response.ok) {
+      handleLoginError();
+      return;
+    }
+
+    return props.history.push("/home");
+  };
 
   const switchToRegister = () => {
     return props.history.push("/register");
   }
 
-
   return (
-    <Card className={classes.login}>
+    <Card className={`${classes.login} ${shakeonError}`}>
       <form onSubmit={submitHandler}>
         <Input
           id="email"
@@ -100,15 +113,19 @@ const Login = (props) => {
         />
         <Input
           id="password"
-          label="Password" 
-          type="password" 
+          label="Password"
+          type="password"
           isValid={passIsValid}
           value={passEntered.value}
           onChange={passwordChangeHandler}
           onBlur={validatePasswordHandler}
         />
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button
+            type="submit"
+            className={classes.btn}
+            disabled={!formIsValid}
+            isLoading={isLoading}>
             Login
           </Button>
         </div>

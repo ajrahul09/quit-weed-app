@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import DailyLogForm from './DailyLogForm';
+import { withRouter } from 'react-router';
 
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 import styles from './NewDailyLog.module.css';
 
-const NewDailyLog = ({ dailyLog }) => {
-
-    const [showNewDailyLogForm, setShowNewDailyLogForm] = useState(false);
+const NewDailyLog = (props) => {
 
     const newDailyLogHandler = () => {
-        setShowNewDailyLogForm(!showNewDailyLogForm);
+        return props.history.push("/dailyLogForm");
     }
 
     return (
         <>
-            {!showNewDailyLogForm && dailyLog && dailyLog.length == 0 &&
+            {props.dailyLog && props.dailyLog.length == 0 &&
                 (<Card className={styles.newDailyLogContainer}>
                     <div className={styles.dailyLogImage}></div>
                     <div>
@@ -27,7 +26,7 @@ const NewDailyLog = ({ dailyLog }) => {
                     </div>
                 </Card>)
             }
-            {!showNewDailyLogForm && dailyLog && dailyLog.length > 0 &&
+            {props.dailyLog && props.dailyLog.length > 0 &&
                 <div className={styles.addNewLogDiv}>
                     <Button
                         onClick={newDailyLogHandler}
@@ -36,9 +35,8 @@ const NewDailyLog = ({ dailyLog }) => {
                     </Button>
                 </div>
             }
-            {showNewDailyLogForm && <DailyLogForm />}
         </>
     )
 }
 
-export default NewDailyLog;
+export default withRouter(NewDailyLog);

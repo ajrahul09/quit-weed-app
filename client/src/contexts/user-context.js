@@ -6,7 +6,7 @@ const AuthContext = React.createContext({
     user: {},
     isLoggedIn: false,
     onLogout: () => { },
-    onLogin: (email, password, callback) => { },
+    onLogin: (email, password) => { },
     onRegister: (name, email, password) => { },
 })
 
@@ -25,7 +25,7 @@ export const AuthContextProvider = (props) => {
         setIsLoading(false);
     }, [])
 
-    const loginHandler = async (email, password, callback) => {
+    const loginHandler = async (email, password) => {
 
         // setIsLoading(true);
 
@@ -44,21 +44,23 @@ export const AuthContextProvider = (props) => {
                 await fetch('http://localhost:3000/api/user/login',
                     requestOptions);
 
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
-            }
-
             const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
 
             localStorage.setItem('user', JSON.stringify(data));
             setUser(data);
             setIsLoggedIn(true);
-            
-            callback();
+
+            setRegistrationComplete(false);
+            return {message: "Daily Log updated successfully", ok: true};
         } catch (err) {
-            console.log(err);
+
+            setRegistrationComplete(false);
+            return {message: err.message, ok:false};
         }
-        setRegistrationComplete(false);
         // setIsLoading(false);
     };
 
