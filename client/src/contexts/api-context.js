@@ -5,8 +5,9 @@ const ApiContext = React.createContext({
     profile: {},
     dailyLog: {},
     isLoading: false,
-    saveProfile: (params) => { },
-    updateDailyLog: (params) => { }
+    saveProfile: params => { },
+    updateProfile: params => { },
+    updateDailyLog: params => { }
 })
 
 export const ApiContextProvider = (props) => {
@@ -43,8 +44,10 @@ export const ApiContextProvider = (props) => {
             const profileData = await response.json();
             setProfile(profileData);
 
+            return { message: "Profile fetched successfully", ok: true };
+
         } catch (err) {
-            console.log(err);
+            return { message: err.message, ok: false };
         }
 
     }, [user.token, user.userId]);
@@ -87,7 +90,7 @@ export const ApiContextProvider = (props) => {
             return fetchDailyLog();
 
         } catch (err) {
-            return {message: err.message, ok:false};
+            return { message: err.message, ok: false };
         }
     }
 
@@ -118,13 +121,55 @@ export const ApiContextProvider = (props) => {
 
             setDailyLog(data);
 
-            return {message: "Daily Log fetched successfully", ok: true};
+            return { message: "Daily Log fetched successfully", ok: true };
 
         } catch (err) {
-            return {message: err.message, ok:false};
+            return { message: err.message, ok: false };
         }
 
     }, [user.token, user.userId]);
+
+
+    // UPDATE PROFILE
+    const updateProfile = async (params) => {
+        let body = {
+            userId: user.userId,
+            quittingReason: params.quittingReason,
+            smokingTimesPerDay: params.smokingTimesPerDay,
+            smokingTimesPerWeek: params.smokingTimesPerWeek,
+            smokingCostPerWeek: params.smokingCostPerWeek,
+            soberDate: params.soberDate
+        }
+
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'PATCH',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            const response =
+                await fetch('http://localhost:3000/api/profiles/' + user.userId,
+                    requestOptions);
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+
+            setProfile(data);
+
+            return { message: "Profile updated successfully", ok: true }
+
+        } catch (err) {
+            return { message: err.message, ok: false };
+        }
+    }
 
 
     // UPDATE DAILY LOG
@@ -166,10 +211,10 @@ export const ApiContextProvider = (props) => {
 
             setDailyLog(data);
 
-            return {message: "Daily Log updated successfully", ok: true}
+            return { message: "Daily Log updated successfully", ok: true }
 
         } catch (err) {
-            return {message: err.message, ok:false};
+            return { message: err.message, ok: false };
         }
     }
 
@@ -179,14 +224,14 @@ export const ApiContextProvider = (props) => {
 
             const fetchProfile = fetchProfileHandler();
             const fetchLog = fetchDailyLog();
-            
+
             Promise.all([fetchProfile, fetchLog])
-            .then(values => {
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setIsLoading(false);
-            });
+                .then(values => {
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    setIsLoading(false);
+                });
         }
     }, [authCtx.isLoggedIn, fetchDailyLog, fetchProfileHandler])
 
@@ -196,6 +241,7 @@ export const ApiContextProvider = (props) => {
             dailyLog: dailyLog,
             isLoading: isLoading,
             saveProfile: saveProfile,
+            updateProfile: updateProfile,
             updateDailyLog: updateDailyLog
         }}
         >

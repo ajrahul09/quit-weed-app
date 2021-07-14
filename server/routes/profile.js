@@ -121,12 +121,17 @@ router.patch('/:userIdParam', async (req, res) => {
                 smokingTimesPerDay: req.body.smokingTimesPerDay,
                 smokingTimesPerWeek: req.body.smokingTimesPerWeek,
                 smokingCostPerWeek: req.body.smokingCostPerWeek,
+                soberDate: req.body.soberDate,
                 modifiedTime: Date.now()
             }
         });
-        return res.json({
-            message: 'Profile updated for userId: ' + userId
-        });
+
+        const savedProfile = await Profile.findOne({
+            userId: userId
+        })
+
+        return res.json(savedProfile);
+
     } catch (err) {
         return res.status(403).json({
             message: 'Something went wrong.'

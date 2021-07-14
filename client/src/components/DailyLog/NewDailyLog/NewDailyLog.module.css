@@ -31,3 +31,12 @@
 .addNewLogButton {
     float: right;
 }
+
+.newDailyLogFormHeadingDiv {
+    margin-top: 4rem;
+    text-align: center;
+  }
+  
+.newDailyLogFormHeading {
+    color: #585858
+}

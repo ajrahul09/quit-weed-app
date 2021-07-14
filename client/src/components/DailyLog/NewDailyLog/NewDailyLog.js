@@ -14,16 +14,23 @@ const NewDailyLog = (props) => {
     return (
         <>
             {props.dailyLog && props.dailyLog.length === 0 &&
-                (<Card className={styles.newDailyLogContainer}>
-                    <div className={styles.dailyLogImage}></div>
-                    <div className={styles.dailyLogButtonDiv}>
-                        <Button
-                            onClick={newDailyLogHandler}
-                            className={styles.dailyLogButton}>
-                            Add new log
-                        </Button>
+                (<div>
+                    <div className={styles.newDailyLogFormHeadingDiv}>
+                        <h1 className={styles.newDailyLogFormHeading}>
+                            Daily Log
+                        </h1>
                     </div>
-                </Card>)
+                    <Card className={styles.newDailyLogContainer}>
+                        <div className={styles.dailyLogImage}></div>
+                        <div className={styles.dailyLogButtonDiv}>
+                            <Button
+                                onClick={newDailyLogHandler}
+                                className={styles.dailyLogButton}>
+                                Add new log
+                            </Button>
+                        </div>
+                    </Card>
+                </div>)
             }
             {props.dailyLog && props.dailyLog.length > 0 &&
                 <div className={styles.addNewLogDiv}>

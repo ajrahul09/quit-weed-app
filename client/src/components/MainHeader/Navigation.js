@@ -23,7 +23,7 @@ const Navigation = () => {
         )}
         {ctx.isLoggedIn && (
           <li>
-            <Link to="/cravings">Cravings</Link>
+            <Link to="/profileForm">Update Profile</Link>
           </li>
         )}
         {!ctx.isLoggedIn && (

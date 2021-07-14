@@ -3,9 +3,17 @@
     max-width: 30rem;
     margin: 2rem auto;
     padding: 2rem;
-  }
+}
   
 .actions {
     text-align: center;
 }
-  
+
+.profileFormHeadingDiv {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.profileFormHeading {
+  color: #585858
+}
