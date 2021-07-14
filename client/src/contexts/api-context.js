@@ -18,18 +18,8 @@ export const ApiContextProvider = (props) => {
     const authCtx = useContext(AuthContext);
     const user = authCtx.user;
 
-    useEffect(() => {
-        if (authCtx.isLoggedIn) {
-            fetchProfileHandler();
-            fetchDailyLog();
-        }
-    }, [authCtx.isLoggedIn])
-
-
     // FETCH PROFILE
     const fetchProfileHandler = useCallback(async () => {
-
-        setIsLoading(true);
 
         try {
             const requestOptions = {
@@ -56,7 +46,6 @@ export const ApiContextProvider = (props) => {
         } catch (err) {
             console.log(err);
         }
-        setIsLoading(false);
 
     }, [user.token, user.userId]);
 
@@ -106,8 +95,6 @@ export const ApiContextProvider = (props) => {
     // FETCH DAILYLOG
     const fetchDailyLog = useCallback(async () => {
 
-        setIsLoading(true);
-
         try {
             const requestOptions = {
                 mode: 'cors',
@@ -131,11 +118,9 @@ export const ApiContextProvider = (props) => {
 
             setDailyLog(data);
 
-            setIsLoading(false);
             return {message: "Daily Log fetched successfully", ok: true};
 
         } catch (err) {
-            setIsLoading(false);
             return {message: err.message, ok:false};
         }
 
@@ -187,6 +172,23 @@ export const ApiContextProvider = (props) => {
             return {message: err.message, ok:false};
         }
     }
+
+    useEffect(() => {
+        if (authCtx.isLoggedIn) {
+            setIsLoading(true);
+
+            const fetchProfile = fetchProfileHandler();
+            const fetchLog = fetchDailyLog();
+            
+            Promise.all([fetchProfile, fetchLog])
+            .then(values => {
+                setIsLoading(false);
+            })
+            .catch(error => {
+                setIsLoading(false);
+            });
+        }
+    }, [authCtx.isLoggedIn, fetchDailyLog, fetchProfileHandler])
 
     return (
         <ApiContext.Provider value={{

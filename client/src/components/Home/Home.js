@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import AuthContext from '../../contexts/user-context';
 import ProfileForm from '../Profile/ProfileForm';
 import ApiContext from '../../contexts/api-context';
 import { Redirect } from 'react-router';
@@ -7,12 +6,8 @@ import { Redirect } from 'react-router';
 import Progress from '../UI/Progress/Progress'
 
 const Home = () => {
-
-  const authCtx = useContext(AuthContext);
-  const user = authCtx.user;
   
   const apiCtx = useContext(ApiContext);
-
 
   return (
     <>

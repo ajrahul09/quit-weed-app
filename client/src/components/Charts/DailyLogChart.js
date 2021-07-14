@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
@@ -9,42 +9,42 @@ const DailyLogChart = ({ dailyLog }) => {
     const dailyLogReducer = (state, action) => {
 
         let cravingsData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.cravings));
+            acc.data.push([new Date(val.createdTime).getTime(), val.cravings]);
             return acc;
         }, { name: 'Cravings', data: [] })
 
         let irritabilityData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.irritability));
+            acc.data.push([new Date(val.createdTime).getTime(), val.irritability]);
             return acc;
         }, { name: 'Irritability', data: [] })
 
         let anxietyData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.anxiety));
+            acc.data.push([new Date(val.createdTime).getTime(), val.anxiety]);
             return acc;
         }, { name: 'Anxiety', data: [] })
 
         let insomniaData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.insomnia));
+            acc.data.push([new Date(val.createdTime).getTime(), val.insomnia]);
             return acc;
         }, { name: 'Insomnia', data: [] })
 
         let appetiteLossData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.appetiteLoss));
+            acc.data.push([new Date(val.createdTime).getTime(), val.appetiteLoss]);
             return acc;
         }, { name: 'Appetite Loss', data: [] })
 
         let moodSwingsData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.moodSwings));
+            acc.data.push([new Date(val.createdTime).getTime(), val.moodSwings]);
             return acc;
         }, { name: 'Mood swings', data: [] })
 
         let depressionData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.depression));
+            acc.data.push([new Date(val.createdTime).getTime(), val.depression]);
             return acc;
         }, { name: 'Depression', data: [] })
 
         let coldSweatsData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.coldSweats));
+            acc.data.push([new Date(val.createdTime).getTime(), val.coldSweats]);
             return acc;
         }, { name: 'Cold Sweats', data: [] })
 
@@ -54,17 +54,17 @@ const DailyLogChart = ({ dailyLog }) => {
     const dailyLogAdditionalReducer = (state, action) => {
 
         let motivationData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.motivation));
+            acc.data.push([new Date(val.createdTime).getTime(), val.motivation]);
             return acc;
         }, { name: 'Motivation', data: [] })
 
         let happinessData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.happiness));
+            acc.data.push([new Date(val.createdTime).getTime(), val.happiness]);
             return acc;
         }, { name: 'Happiness', data: [] })
 
         let confidenceData = dailyLog.reduce((acc, val) => {
-            acc.data.push(new Array(new Date(val.createdTime).getTime(), val.confidence));
+            acc.data.push([new Date(val.createdTime).getTime(), val.confidence]);
             return acc;
         }, { name: 'Confidence', data: [] })
 

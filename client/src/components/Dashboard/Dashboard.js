@@ -12,8 +12,8 @@ const Dashboard = (props) => {
 
     const {
         quittingReason,
-        smokingTimesPerDay,
-        smokingTimesPerWeek,
+        // smokingTimesPerDay,
+        // smokingTimesPerWeek,
         smokingCostPerWeek,
         soberDate
     } = profile;
@@ -68,7 +68,12 @@ const Dashboard = (props) => {
             timeElapsedSoberDate();
             moneySaved();
         }
-    }, [timeElapsedSoberDate, moneySaved]);
+        return () => {
+            setElapsedSoberDate('')
+            setMoneySavedTillNow('')
+            setMoneySavedPerYear('');
+        }
+    }, [timeElapsedSoberDate, moneySaved, profile]);
 
     return (
         <>

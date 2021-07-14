@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import DailyLogForm from './DailyLogForm';
+import React from "react";
 import { withRouter } from 'react-router';
 
 import Card from "../../UI/Card/Card";
@@ -14,7 +13,7 @@ const NewDailyLog = (props) => {
 
     return (
         <>
-            {props.dailyLog && props.dailyLog.length == 0 &&
+            {props.dailyLog && props.dailyLog.length === 0 &&
                 (<Card className={styles.newDailyLogContainer}>
                     <div className={styles.dailyLogImage}></div>
                     <div className={styles.dailyLogButtonDiv}>

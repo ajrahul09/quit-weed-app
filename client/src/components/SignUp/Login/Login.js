@@ -55,6 +55,7 @@ const Login = (props) => {
     return () => {
       console.log('CLEANUP');
       clearTimeout(formValidityTimout);
+      setFormIsValid(false);
     }
   }, [emailIsValid, passIsValid])
 
