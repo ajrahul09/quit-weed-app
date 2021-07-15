@@ -11,6 +11,7 @@ const ProfileForm = (props) => {
 
     const apiCtx = useContext(ApiContext);
     const profile = apiCtx.profile;
+    const images = apiCtx.images;
 
     const [quittingReason, setQuittingReason] = useState('');
     const [smokingTimesPerDay, setSmokingTimesPerDay] = useState(0);
@@ -19,10 +20,14 @@ const ProfileForm = (props) => {
     const [soberDate, setSoberDate] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const [quittingReasonPhoto, setQuittingReasonPhoto] = useState('');
+    const [imageUploaded, setImageUploaded] = useState(0);
+
     const submitHandler = async (event) => {
         event.preventDefault();
         let params = {
             quittingReason: quittingReason,
+            quittingReasonPhoto: quittingReasonPhoto,
             smokingTimesPerDay: smokingTimesPerDay,
             smokingTimesPerWeek: smokingTimesPerWeek,
             smokingCostPerWeek: smokingCostPerWeek,
@@ -69,6 +74,34 @@ const ProfileForm = (props) => {
         return date.toISOString().slice(0, 16);
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            let img = event.target.files[0];
+
+            let base64Img = await toBase64(img)
+
+            setQuittingReasonPhoto(base64Img);
+
+            let imageObj = {
+                imageName: img.name,
+                imageData: base64Img,
+                type: 'quitting-reason'
+            }
+
+            setImageUploaded(1);
+            const response = await apiCtx.uploadImage(imageObj);
+            setImageUploaded(2);
+
+        }
+    };
+
     useEffect(() => {
         if (profile) {
             setQuittingReason(profile.quittingReason);
@@ -96,6 +129,23 @@ const ProfileForm = (props) => {
                             value={quittingReason || ''}
                             onChange={quittingReasonHandler}
                         />
+                        <Input
+                            id="quittingReasonPhoto"
+                            label="Quitting Reason Photo"
+                            type="file"
+                            onChange={onImageChange}
+                        />
+                        <div className={styles.imageUploadedDivContainer}>
+                            <div className={styles.imageUploadedDiv}>
+                                <img
+                                    className={styles.imageUploadedThumbnail}
+                                    src={quittingReasonPhoto} />
+                            </div>
+                            <div className={styles.imageUploadedMsg}>
+                                {imageUploaded === 1 && <span>Image Uploading...</span>}
+                                {imageUploaded === 2 && <span>Image Uploaded</span>}
+                            </div>
+                        </div>
                         <Input
                             id="smokingTimesPerDay"
                             label="Smoking Times Per Day"
@@ -130,7 +180,8 @@ const ProfileForm = (props) => {
                             <Button
                                 type="submit"
                                 className={styles.btn}
-                                isLoading={isLoading}>
+                                isLoading={isLoading}
+                                disabled={imageUploaded === 1 ? true : false}>
                                 Submit
                             </Button>
                         </div>

@@ -17,3 +17,22 @@
 .profileFormHeading {
   color: #585858
 }
+
+.imageUploadedDivContainer {
+  display: flex;
+}
+
+.imageUploadedThumbnail {
+  height: 3rem;
+}
+
+.imageUploadedDiv {
+  width: 4rem;
+  flex: 1;
+}
+
+.imageUploadedMsg{
+  flex: 1;
+  line-height: 4rem;    
+  font-size: 0.9em;
+}

@@ -4,10 +4,12 @@ import AuthContext from './user-context';
 const ApiContext = React.createContext({
     profile: {},
     dailyLog: {},
+    images: [],
     isLoading: false,
     saveProfile: params => { },
     updateProfile: params => { },
-    updateDailyLog: params => { }
+    updateDailyLog: params => { },
+    uploadImage: params => { }
 })
 
 export const ApiContextProvider = (props) => {
@@ -15,6 +17,7 @@ export const ApiContextProvider = (props) => {
     const [profile, setProfile] = useState({});
     const [dailyLog, setDailyLog] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [images, setImages] = useState([]);
 
     const authCtx = useContext(AuthContext);
     const user = authCtx.user;
@@ -135,6 +138,7 @@ export const ApiContextProvider = (props) => {
         let body = {
             userId: user.userId,
             quittingReason: params.quittingReason,
+            quittingReasonPhoto: params.quittingReasonPhoto,
             smokingTimesPerDay: params.smokingTimesPerDay,
             smokingTimesPerWeek: params.smokingTimesPerWeek,
             smokingCostPerWeek: params.smokingCostPerWeek,
@@ -218,12 +222,91 @@ export const ApiContextProvider = (props) => {
         }
     }
 
+    // UPLOAD IMAGE
+    const uploadImage = async (params) => {
+        let body = {
+            userId: user.userId,
+            imageName: params.imageName,
+            imageData: params.imageData,
+            type: params.type
+        }
+
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            const response =
+                await fetch('http://localhost:3000/api/uploadImage',
+                    requestOptions);
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+
+            setImages(prevValue => {
+                return [...prevValue, data];
+            });
+
+            return data;
+
+        } catch (err) {
+            return { message: err.message, ok: false };
+        }
+    }
+
+    // FETCH IMAGE
+    const fetchImage = useCallback(async (params) => {
+
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'GET',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const response =
+                await fetch('http://localhost:3000/api/uploadImage/' +
+                    user.userId + '/' +
+                    'quitting-reason',
+                    requestOptions);
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+
+            setImages(prevValue => {
+                return [...prevValue, data];
+            });
+
+            return data;
+
+        } catch (err) {
+            return { message: err.message, ok: false };
+        }
+
+    }, [user.userId, user.token]);
+
     useEffect(() => {
         if (authCtx.isLoggedIn) {
             setIsLoading(true);
 
             const fetchProfile = fetchProfileHandler();
             const fetchLog = fetchDailyLog();
+            const fetchImg = fetchImage();
 
             Promise.all([fetchProfile, fetchLog])
                 .then(values => {
@@ -239,10 +322,12 @@ export const ApiContextProvider = (props) => {
         <ApiContext.Provider value={{
             profile: profile,
             dailyLog: dailyLog,
+            images: images,
             isLoading: isLoading,
             saveProfile: saveProfile,
             updateProfile: updateProfile,
-            updateDailyLog: updateDailyLog
+            updateDailyLog: updateDailyLog,
+            uploadImage: uploadImage
         }}
         >
             {props.children}
