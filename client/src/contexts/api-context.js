@@ -16,7 +16,7 @@ export const ApiContextProvider = (props) => {
 
     const [profile, setProfile] = useState({});
     const [dailyLog, setDailyLog] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [images, setImages] = useState([]);
 
     const authCtx = useContext(AuthContext);

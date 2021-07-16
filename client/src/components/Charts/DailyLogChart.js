@@ -1,10 +1,16 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useContext } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 
 import styles from './DailyLogChart.module.css'
+import ApiContext from "../../contexts/api-context";
+import Progress from "../UI/Progress/Progress";
 
-const DailyLogChart = ({ dailyLog }) => {
+const DailyLogChart = () => {
+
+    const apiCtx = useContext(ApiContext);
+    const dailyLog = apiCtx.dailyLog.dailyLog;
 
     const dailyLogReducer = (state, action) => {
 
@@ -227,53 +233,86 @@ const DailyLogChart = ({ dailyLog }) => {
         }
     };
 
-
     function changeHighChartsPosition() {
-        document.getElementsByClassName("highcharts-container")[0].style.position = "";
-        Highcharts.charts.forEach(function(chart) {
-            if(chart)
-                chart.reflow();
-        });
+        var el = document.getElementsByClassName("highcharts-container")[0];
+        if (el) {
+            el.style.position = "";
+
+            Highcharts.charts.forEach(function (chart) {
+                if (chart)
+                    chart.reflow();
+            });
+        }
     }
 
+    function customizeHighChart() {
+        if (!apiCtx.isLoading && dailyLog && dailyLog.length == 0) {
+            NoDataToDisplay(Highcharts);
+            Highcharts.setOptions({
+                lang: {
+                    noData: 'Add DailyLog to see your progress here'
+                },
+                noData: {
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: '15px',
+                        color: 'red'
+                    }
+                },
+            });
+        }
+    }
+
+    customizeHighChart();
+    changeHighChartsPosition();
+
     useEffect(() => {
-        dispatchDailyLogData();
-        dispatchDailyLogAdditionalData();
+        customizeHighChart();
         changeHighChartsPosition();
-    }, [dispatchDailyLogData, dispatchDailyLogAdditionalData, dailyLog])
+        if (!apiCtx.isLoading && dailyLog && dailyLog.length > 0) {
+            dispatchDailyLogData();
+            dispatchDailyLogAdditionalData();
+        }
+    }, [dispatchDailyLogData, dispatchDailyLogAdditionalData, dailyLog, apiCtx.isLoading])
 
     return (
         <>
-            <div className={styles.dailyLogChart_headingDiv}>
-                <h1 className={styles.dailyLogChart_heading}>
-                    Your Daily Progress
-                </h1>
-                <p className={styles.dailyLogChart_subHeading}>
-                    Monitor your cravings and motivation regulary to develop good habits!
-                </p>
-            </div>
-            <div className={styles.dailyLogChart_container}>
-                <HighchartsReact
-                    containerProps={{
-                        style: {
-                            maxWidth: "50rem", margin: "auto"
-                        }
-                    }}
-                    highcharts={Highcharts}
-                    options={options}
-                />
-            </div>
-            <div className={styles.dailyLogChart_container}>
-                <HighchartsReact
-                    containerProps={{
-                        style: {
-                            maxWidth: "50rem", margin: "auto"
-                        }
-                    }}
-                    highcharts={Highcharts}
-                    options={options1}
-                />
-            </div>
+            {apiCtx.isLoading && <Progress />}
+            {!apiCtx.isLoading &&
+                <>
+                    <div className={styles.dailyLogChart_headingDiv}>
+                        <h1 className={styles.dailyLogChart_heading}>
+                            Your Daily Progress
+                        </h1>
+                        <p className={styles.dailyLogChart_subHeading}>
+                            Monitor your cravings and motivation regulary to develop good habits!
+                        </p>
+                    </div>
+                    <div className={styles.dailyLogChart_container}>
+                        {!apiCtx.isLoading && dailyLog &&
+                            <HighchartsReact
+                                containerProps={{
+                                    style: {
+                                        maxWidth: "50rem", margin: "auto"
+                                    }
+                                }}
+                                highcharts={Highcharts}
+                                options={options}
+                            />}
+                    </div>
+                    <div className={styles.dailyLogChart_container}>
+                        <HighchartsReact
+                            containerProps={{
+                                style: {
+                                    maxWidth: "50rem", margin: "auto"
+                                }
+                            }}
+                            highcharts={Highcharts}
+                            options={options1}
+                        />
+                    </div>
+                </>
+            }
         </>
     )
 }

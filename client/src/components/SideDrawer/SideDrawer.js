@@ -26,6 +26,11 @@ const SideDrawer = props => {
   return (
     <nav className={drawerClasses}>
       <ul>
+            {ctx.isLoggedIn && !apiCtx.isLoading && !updatedProfile && (
+              <li>
+                <Link to="/home">Home</Link>
+              </li>
+            )}
             {ctx.isLoggedIn && updatedProfile && (
               <li>
                 <Link to="/dashboard">Dashboard</Link>
@@ -34,6 +39,11 @@ const SideDrawer = props => {
             {ctx.isLoggedIn && updatedProfile && (
               <li>
                 <Link to="/dailyLog">DailyLog</Link>
+              </li>
+            )}
+            {ctx.isLoggedIn && updatedProfile && (
+              <li>
+                <Link to="/cravings">Cravings</Link>
               </li>
             )}
             {ctx.isLoggedIn && updatedProfile && (

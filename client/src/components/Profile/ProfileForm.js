@@ -23,11 +23,12 @@ const ProfileForm = (props) => {
 
     const [quittingReasonPhoto, setQuittingReasonPhoto] = useState('');
     const [imageUploaded, setImageUploaded] = useState(0);
+    const [showThumbnail, setShowThumbnail] = useState(false);
 
     const submitHandler = async (event) => {
         event.preventDefault();
         setMessage('');
-        
+
         let params = {
             quittingReason: quittingReason,
             quittingReasonPhoto: quittingReasonPhoto,
@@ -88,6 +89,8 @@ const ProfileForm = (props) => {
 
     const onImageChange = async event => {
         if (event.target.files && event.target.files[0]) {
+            setShowThumbnail(true);
+
             let img = event.target.files[0];
 
             let base64Img = await toBase64(img)
@@ -146,52 +149,56 @@ const ProfileForm = (props) => {
                     <form onSubmit={submitHandler}>
                         <Input
                             id="quittingReason"
-                            label="Quitting Reason"
+                            label="Who and what are you quitting for?"
                             type="text"
                             value={quittingReason || ''}
                             onChange={quittingReasonHandler}
                         />
                         <Input
                             id="quittingReasonPhoto"
-                            label="Quitting Reason Photo"
+                            label="Upload an image of the person or the thing you're quitting for?"
                             type="file"
                             onChange={onImageChange}
                         />
                         <div className={styles.imageUploadedDivContainer}>
-                            <div className={styles.imageUploadedDiv}>
-                                <img alt="quitting-smoking"
-                                    className={styles.imageUploadedThumbnail}
-                                    src={quittingReasonPhoto} />
-                            </div>
-                            <div className={styles.imageUploadedMsg}>
-                                {imageUploaded === 1 && <span>Image Uploading...</span>}
-                                {imageUploaded === 2 && <span>Image Uploaded</span>}
-                            </div>
+                            {showThumbnail &&
+                                <>
+                                    <div className={styles.imageUploadedDiv}>
+                                        <img alt="quitting-smoking"
+                                            className={styles.imageUploadedThumbnail}
+                                            src={quittingReasonPhoto} />
+                                    </div>
+                                    <div className={styles.imageUploadedMsg}>
+                                        {imageUploaded === 1 && <span>Image Uploading...</span>}
+                                        {imageUploaded === 2 && <span>Image Uploaded</span>}
+                                    </div>
+                                </>
+                            }
                         </div>
                         <Input
                             id="smokingTimesPerDay"
-                            label="Smoking Times Per Day"
+                            label="Smoke sesh's per day"
                             type="number"
                             value={smokingTimesPerDay || 0}
                             onChange={smokingTimesPerDayHandler}
                         />
                         <Input
                             id="smokingTimesPerWeek"
-                            label="Smoking Times Per Week"
+                            label="Smoke sesh's per week"
                             type="number"
                             value={smokingTimesPerWeek || 0}
                             onChange={smokingTimesPerWeekHandler}
                         />
                         <Input
                             id="smokingCostPerWeek"
-                            label="Smoking Cost Per Week"
+                            label="How much did you spend per week on weed? ($)"
                             type="number"
                             value={smokingCostPerWeek || 0}
                             onChange={smokingCostPerWeekHandler}
                         />
                         <Input
                             id="soberDate"
-                            label="Sober Date"
+                            label="When was the last time you smoked?"
                             type="datetime-local"
                             max={dateFormatter(new Date())}
                             value={soberDate || ''}

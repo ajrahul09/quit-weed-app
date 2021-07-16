@@ -11,7 +11,6 @@ const DailyLogForm = (props) => {
 
     const apiCtx = useContext(ApiContext);
 
-    const [successMsg, setSuccessMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const [cravings, setCravings] = useState(0);
@@ -61,7 +60,6 @@ const DailyLogForm = (props) => {
     }
 
     const redirectToDailyLog = () => {
-        setSuccessMsg('');
         return props.history.push("/dailyLog");
     }
 
@@ -85,11 +83,10 @@ const DailyLogForm = (props) => {
         setIsLoading(false);
 
         if (!response.ok) {
-            setSuccessMsg(response.message);
             return;
         }
 
-        setSuccessMsg(response.message);
+        redirectToDailyLog(); 
 
     }
 
@@ -232,14 +229,6 @@ const DailyLogForm = (props) => {
                     </div>
                 </form>
             </Card>
-            {successMsg === '' ? '' :
-                <div>
-                    <div>{successMsg}</div>
-                    <div>To see your progress,&nbsp;
-                        <span onClick={redirectToDailyLog}>click here</span>
-                    </div>
-                </div>
-            }
         </>
     )
 }

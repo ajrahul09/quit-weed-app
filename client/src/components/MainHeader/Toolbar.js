@@ -25,11 +25,16 @@ const Navigation = (props) => {
           <DrawerToggleButton click={props.drawerClickHandler} />
         </div>
         <div className="toolbar__logo">
-          <a href="/">QUITWEED.ORG</a>
+          <Link to="/">QUITWEED.ORG</Link>
         </div>
         <div className="spacer" />
         <div className="toolbar_navigation-items">
           <ul>
+            {ctx.isLoggedIn && !apiCtx.isLoading && !updatedProfile && (
+              <li>
+                <Link to="/home">Home</Link>
+              </li>
+            )}
             {ctx.isLoggedIn && updatedProfile && (
               <li>
                 <Link to="/dashboard">Dashboard</Link>
@@ -38,6 +43,11 @@ const Navigation = (props) => {
             {ctx.isLoggedIn && updatedProfile && (
               <li>
                 <Link to="/dailyLog">DailyLog</Link>
+              </li>
+            )}
+            {ctx.isLoggedIn && updatedProfile && (
+              <li>
+                <Link to="/cravings">Cravings</Link>
               </li>
             )}
             {ctx.isLoggedIn && updatedProfile && (

@@ -40,3 +40,28 @@
 .newDailyLogFormHeading {
     color: #585858
 }
+
+.calendarDiv {
+    display: flex;    
+    margin: 1rem 0rem;
+}
+
+.calendar {
+    background-image: url("../../../assets/dailyLog-calendar.jpg");
+    background-position: center;
+    height: 8rem;
+    width: 8rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.logHistoryDate {
+    padding: 1rem 2rem;
+    background-color: beige;
+}
+
+.logHistoryStats {
+    padding: 1.5rem 2rem;
+    background-color: #dab344;
+    color: white;
+}

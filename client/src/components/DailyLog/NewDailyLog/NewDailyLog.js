@@ -11,6 +11,43 @@ const NewDailyLog = (props) => {
         return props.history.push("/dailyLogForm");
     }
 
+    const dateFormatter = (date) => {
+        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+        return (<>
+            <h3>{date.toISOString().slice(0, 10)}</h3>
+            <h4>{date.toISOString().slice(11, 16)}</h4>
+        </>)
+    }
+
+    const DailyLogHistory = () => {
+        if (props.dailyLog && props.dailyLog.length > 0) {
+            return (
+                <div>
+                    {props.dailyLog.map((log, index) => {
+                        return <CalendarDailyLog log={log} key={index} />
+                    })}
+                </div>
+            )
+        }
+    }
+
+    const CalendarDailyLog = ({ log }) => {
+        return (
+            <div className={styles.calendarDiv}>
+                <div style={{ flex: 1 }}></div>
+                <div className={styles.calendar}></div>
+                <div className={styles.logHistoryDate}>
+                    {dateFormatter(new Date(log.createdTime))}
+                </div>
+                <div className={styles.logHistoryStats}>
+                    <p>Cravings: {log.cravings}/10</p>
+                    <p>Motivation: {log.motivation}/10</p>
+                </div>
+                <div style={{ flex: 1 }}></div>
+            </div>
+        )
+    }
+
     return (
         <>
             {props.dailyLog && props.dailyLog.length === 0 &&
@@ -40,6 +77,9 @@ const NewDailyLog = (props) => {
                         Add new log
                     </Button>
                 </div>
+            }
+            {props.dailyLog && props.dailyLog.length > 0 &&
+                <DailyLogHistory />
             }
         </>
     )
