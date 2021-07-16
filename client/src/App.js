@@ -32,7 +32,7 @@ function App() {
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
             <PrivateRoute path="/dailyLog" exact component={DailyLog} />
             <PrivateRoute path="/dailyLogForm" exact component={DailyLogForm} />
-            <PrivateRoute path="/cravings" exact component={DailyLogChart} />
+            <PrivateRoute path="/progress" exact component={DailyLogChart} />
             <PrivateRoute path="/profileForm" exact component={ProfileForm} />
             
             <Route path="*" component={() => "404 not found"} />

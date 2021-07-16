@@ -74,7 +74,7 @@ const NewDailyLog = (props) => {
                     <Button
                         onClick={newDailyLogHandler}
                         className={styles.addNewLogButton}>
-                        Add new log
+                        Add New Log
                     </Button>
                 </div>
             }

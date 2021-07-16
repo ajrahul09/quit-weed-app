@@ -121,7 +121,7 @@ router.post('/login', async (req, res) => {
     })
     if (!user) {
         return res.status(403).json({
-            message: 'Email doesn\'t exists.'
+            message: 'Email doesn\'t exist. '
         });
     }
 

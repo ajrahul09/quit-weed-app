@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext } from "react";
+import React, { useEffect, useReducer, useContext, useCallback } from "react";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
@@ -109,8 +109,9 @@ const DailyLogChart = () => {
             min: 0
         },
         tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%e %b %H:%M} - {point.y}'
+            formatter: function() {
+                return tooltipFormatter(this);
+            }
         },
 
         plotOptions: {
@@ -185,8 +186,9 @@ const DailyLogChart = () => {
             min: 0
         },
         tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%e %b %H:%M} - {point.y}'
+            formatter: function() {
+                return tooltipFormatter(this);
+            }
         },
 
         plotOptions: {
@@ -233,6 +235,15 @@ const DailyLogChart = () => {
         }
     };
 
+    const tooltipFormatter = (val) => {
+            let date = new Date(val.x);
+            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+            date = date.toISOString();
+            date = date.substring(0, 10) + ' ' + date.substring(11, 19);
+
+            return `<b>${val.series.name} - ${val.y}</b><br />${date}`;
+    }
+
     function changeHighChartsPosition() {
         var el = document.getElementsByClassName("highcharts-container")[0];
         if (el) {
@@ -245,8 +256,8 @@ const DailyLogChart = () => {
         }
     }
 
-    function customizeHighChart() {
-        if (!apiCtx.isLoading && dailyLog && dailyLog.length == 0) {
+    const customizeHighChart = useCallback(() => {
+        if (!apiCtx.isLoading && dailyLog && dailyLog.length === 0) {
             NoDataToDisplay(Highcharts);
             Highcharts.setOptions({
                 lang: {
@@ -261,7 +272,7 @@ const DailyLogChart = () => {
                 },
             });
         }
-    }
+    }, [apiCtx.isLoading, dailyLog]);
 
     customizeHighChart();
     changeHighChartsPosition();
@@ -273,7 +284,9 @@ const DailyLogChart = () => {
             dispatchDailyLogData();
             dispatchDailyLogAdditionalData();
         }
-    }, [dispatchDailyLogData, dispatchDailyLogAdditionalData, dailyLog, apiCtx.isLoading])
+    }, [dispatchDailyLogData, dispatchDailyLogAdditionalData, 
+        dailyLog, apiCtx.isLoading, customizeHighChart
+    ])
 
     return (
         <>

@@ -1,0 +1,25 @@
+.landingPage_container {
+    height: 100vh;
+    display: flex;
+}
+
+.image_div {
+    background-image: url("../../assets/weed-leaves.jpg");
+    background-position: center;
+    text-align: center;
+    height: 100%;
+    flex: 1;
+}
+
+.welcome_info_div {
+    flex: 1;
+}
+
+.welcome_heading {
+    padding: 4rem;
+    font-size: 2.5em;
+}
+
+.welcome_message {
+    padding: 0rem 3rem;
+}

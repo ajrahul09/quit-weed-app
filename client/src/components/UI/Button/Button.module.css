@@ -1,7 +1,7 @@
 .button {
   font: inherit;
-  border: 1px solid #4f005f;
-  background: #4f005f;
+  background: #8e8c16;
+  border: 1px solid #8e9610;
   color: white;
   padding: 0.75rem 2.5rem;
   cursor: pointer;
@@ -12,8 +12,8 @@
 
 .button:hover,
 .button:active {
-  background: #741188;
-  border-color: #741188;
+  background: #656304;
+  border-color: #656304;
 }
 
 .button:focus {
@@ -34,8 +34,8 @@ button:active:disabled {
 /* loading dots */
 
 .loading {
-  background-color: #b375bf !important;
-  border: 1px solid #b375bf;
+  background-color: #b7b410 !important;
+  border: 1px solid #b7b410;
 }
 
 .loading:after {
