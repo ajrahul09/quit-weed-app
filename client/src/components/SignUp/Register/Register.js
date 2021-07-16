@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
+import { withRouter } from 'react-router';
 
 import AuthContext from '../../../contexts/user-context';
 import Card from '../../UI/Card/Card';
@@ -115,6 +116,11 @@ const Register = (props) => {
 
   return (
     <>
+      <div className={classes.regHeadingDiv}>
+        <h1 className={classes.regHeading}>
+          Register
+        </h1>
+      </div>
       <Card className={`${classes.register} ${shakeonError}`}>
         <form onSubmit={submitHandler}>
           <Input
@@ -151,10 +157,10 @@ const Register = (props) => {
               Register
             </Button>
           </div>
-          <div>
+          <div className={classes.redirectToLoginDiv}>
             <p>If you're already a user, &nbsp;
-              <span onClick={switchToLogin}>
-                Login here
+              <span className={classes.switchToLogin} onClick={switchToLogin}>
+                <u>Login here</u>
               </span>
             </p>
           </div>
@@ -167,4 +173,4 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+export default withRouter(Register);

@@ -5,8 +5,26 @@
   padding: 2rem;
 }
 
+.loginHeadingDiv {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.loginHeading {
+  color: #585858
+}
+
 .actions {
   text-align: center;
+}
+
+.switchToReg {
+  cursor: pointer;
+}
+
+.redirectToRegisterDiv {
+  font-size: 0.9rem;
+  margin-top: 2rem;
 }
 
 .messageDiv {

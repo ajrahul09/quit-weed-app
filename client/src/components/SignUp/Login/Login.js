@@ -113,6 +113,11 @@ const Login = (props) => {
 
   return (
     <>
+      <div className={classes.loginHeadingDiv}>
+        <h1 className={classes.loginHeading}>
+          Login
+        </h1>
+      </div>
       <Card className={`${classes.login} ${shakeonError}`}>
         <form onSubmit={submitHandler}>
           <Input
@@ -142,10 +147,10 @@ const Login = (props) => {
               Login
             </Button>
           </div>
-          <div>
+          <div className={classes.redirectToRegisterDiv}>
             <p>If you are a new user,&nbsp;
-              <span onClick={switchToRegister}>
-                Register here
+              <span className={classes.switchToReg} onClick={switchToRegister}>
+                <u>Register here</u>
               </span>
             </p>
           </div>
