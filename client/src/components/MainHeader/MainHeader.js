@@ -1,16 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Navigation from './Navigation';
-import classes from './MainHeader.module.css';
+import React, { useState } from 'react';
+import Toolbar from './Toolbar';
+import SideDrawer from '../SideDrawer/SideDrawer';
+import Backdrop from '../Backdrop/Backdrop';
+
+import './MainHeader.css';
 
 const MainHeader = (props) => {
+
+  const [sideDrawerOpen, setDrawerOpen] = useState(false);
+
+  const drawerToggleClickHandler = () => {
+    setDrawerOpen(prevState => {
+      return !prevState.sideDrawerOpen;
+    })
+  }
+
+  const backdropClickHandler = () => {
+    setDrawerOpen(false);
+  }
+
+  let backdrop;
+
+  if (sideDrawerOpen) {
+    backdrop = <Backdrop click={backdropClickHandler} />
+  }
+
   return (
-    <header className={classes['main-header']}>
-      <h1>
-        <Link to="/">Quit Weed</Link>
-      </h1>
-      <Navigation />
-    </header>
+    <>
+      <Toolbar drawerClickHandler={drawerToggleClickHandler} />
+      <SideDrawer show={sideDrawerOpen} />
+      {backdrop}
+    </>
   );
 };
 

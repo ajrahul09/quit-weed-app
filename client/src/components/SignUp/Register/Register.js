@@ -18,10 +18,10 @@ const emailReducer = (state, action) => {
 
 const passReducer = (state, action) => {
   if (action.type === 'PASS_CHANGE') {
-    return { value: action.val, isValid: action.val.length > 6 };
+    return { value: action.val, isValid: true };
   }
   if (action.type === 'PASS_BLUR') {
-    return { value: state.value, isValid: state.value.length > 6 };
+    return { value: state.value, isValid: true };
   }
   return { value: '', isValid: false };
 }
@@ -39,6 +39,10 @@ const Register = (props) => {
   const { isValid: passIsValid } = passEntered;
 
   const [nameEntered, setNameEntered] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [shakeonError, setShakeonError] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState('');
 
   const authCtx = useContext(AuthContext);
 
@@ -76,58 +80,90 @@ const Register = (props) => {
     passDispatch({ type: 'PASS_BLUR' })
   };
 
-  const submitHandler = (event) => {
+  const handleRegistrationError = (message) => {
+    setIsError(true);
+    setMessage(message);
+    setShakeonError(classes.shake);
+    setTimeout(() => {
+      setShakeonError('');
+    }, 250);
+  }
+
+  const submitHandler = async (event) => {
     event.preventDefault();
-    authCtx.onRegister(nameEntered, emailEntered.value, passEntered.value);
-    props.login();
+
+    setIsLoading(true);
+    const response = await authCtx.onRegister(nameEntered, emailEntered.value, passEntered.value);
+    setIsLoading(false);
+
+    if (!response.ok) {
+      handleRegistrationError(response.message);
+      return;
+    }
+
+    setMessage(response.message);
   };
 
   const switchToLogin = () => {
     return props.history.push("/login");
   }
 
+  let msgClass = classes.successMsg;
+  if (isError) {
+    msgClass = classes.failureMsg;
+  }
+
   return (
-    <Card className={classes.register}>
-      <form onSubmit={submitHandler}>
-        <Input 
-          id="name"
-          label="Name"
-          type="text"
-          onChange={nameChangeHandler}
-          value={nameEntered}
-         />
-        <Input
-          id="email"
-          label="E-mail"
-          type="email"
-          isValid={emailIsValid}
-          value={emailEntered.value}
-          onChange={emailChangeHandler}
-          onBlur={validateEmailHandler}
-        />
-        <Input
-          id="password"
-          label="Password" 
-          type="password" 
-          isValid={passIsValid}
-          value={passEntered.value}
-          onChange={passwordChangeHandler}
-          onBlur={validatePasswordHandler}
-        />
-        <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
-            Register
-          </Button>
-        </div>
-        <div>
-          <p>If you're already a user, &nbsp;
-            <span onClick={switchToLogin}>
-              Login here
-            </span>
-          </p>
-        </div>
-      </form>
-    </Card>
+    <>
+      <Card className={`${classes.register} ${shakeonError}`}>
+        <form onSubmit={submitHandler}>
+          <Input
+            id="name"
+            label="Name"
+            type="text"
+            onChange={nameChangeHandler}
+            value={nameEntered}
+          />
+          <Input
+            id="email"
+            label="E-mail"
+            type="email"
+            isValid={emailIsValid}
+            value={emailEntered.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            isValid={passIsValid}
+            value={passEntered.value}
+            onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
+          />
+          <div className={classes.actions}>
+            <Button
+              type="submit"
+              className={classes.btn}
+              disabled={!formIsValid}
+              isLoading={isLoading}>
+              Register
+            </Button>
+          </div>
+          <div>
+            <p>If you're already a user, &nbsp;
+              <span onClick={switchToLogin}>
+                Login here
+              </span>
+            </p>
+          </div>
+        </form>
+      </Card>
+      <div className={`${msgClass} ${classes.messageDiv}`}>
+        <p className={classes.message}>{message}</p>
+      </div>
+    </>
   );
 };
 

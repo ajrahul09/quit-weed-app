@@ -11,7 +11,6 @@ const ProfileForm = (props) => {
 
     const apiCtx = useContext(ApiContext);
     const profile = apiCtx.profile;
-    const images = apiCtx.images;
 
     const [quittingReason, setQuittingReason] = useState('');
     const [smokingTimesPerDay, setSmokingTimesPerDay] = useState(0);
@@ -19,12 +18,16 @@ const ProfileForm = (props) => {
     const [smokingCostPerWeek, setSmokingCostPerWeek] = useState(0);
     const [soberDate, setSoberDate] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [message, setMessage] = useState('');
 
     const [quittingReasonPhoto, setQuittingReasonPhoto] = useState('');
     const [imageUploaded, setImageUploaded] = useState(0);
 
     const submitHandler = async (event) => {
         event.preventDefault();
+        setMessage('');
+        
         let params = {
             quittingReason: quittingReason,
             quittingReasonPhoto: quittingReasonPhoto,
@@ -36,7 +39,7 @@ const ProfileForm = (props) => {
 
         setIsLoading(true);
         let response = {};
-        if (profile.soberDate && profile.soberDate && '' != profile.soberDate) {
+        if (profile.soberDate && profile.soberDate && '' !== profile.soberDate) {
             response = await apiCtx.updateProfile(params);
         } else {
             response = await apiCtx.saveProfile(params);
@@ -44,8 +47,10 @@ const ProfileForm = (props) => {
         setIsLoading(false);
 
         if (!response.ok) {
-            return response.message;
+            setIsError(true);
         }
+
+        setMessage(response.message);
 
     }
 
@@ -96,7 +101,7 @@ const ProfileForm = (props) => {
             }
 
             setImageUploaded(1);
-            const response = await apiCtx.uploadImage(imageObj);
+            await apiCtx.uploadImage(imageObj);
             setImageUploaded(2);
 
         }
@@ -110,7 +115,19 @@ const ProfileForm = (props) => {
             setSmokingCostPerWeek(profile.smokingCostPerWeek);
             setSoberDate(profile.soberDate ? dateFormatter(new Date(profile.soberDate)) : '');
         }
+        return () => {
+            setQuittingReason('')
+            setSmokingTimesPerDay(0);
+            setSmokingTimesPerWeek(0);
+            setSmokingCostPerWeek(0);
+            setSoberDate('');
+        }
     }, [profile])
+
+    let msgClass = styles.successMsg;
+    if (isError) {
+        msgClass = styles.failureMsg;
+    }
 
     return (
         <>
@@ -119,6 +136,11 @@ const ProfileForm = (props) => {
                     Update Profile
                 </h1>
             </div>
+
+            <div className={`${msgClass} ${styles.messageDiv}`}>
+                <p className={styles.message}>{message}</p>
+            </div>
+
             <Card className={styles.profileForm}>
                 <div>
                     <form onSubmit={submitHandler}>
@@ -137,7 +159,7 @@ const ProfileForm = (props) => {
                         />
                         <div className={styles.imageUploadedDivContainer}>
                             <div className={styles.imageUploadedDiv}>
-                                <img
+                                <img alt="quitting-smoking"
                                     className={styles.imageUploadedThumbnail}
                                     src={quittingReasonPhoto} />
                             </div>
@@ -171,7 +193,7 @@ const ProfileForm = (props) => {
                             id="soberDate"
                             label="Sober Date"
                             type="datetime-local"
-                            max={dateFormatter(new Date)}
+                            max={dateFormatter(new Date())}
                             value={soberDate || ''}
                             onChange={soberDateHandler}
                         />

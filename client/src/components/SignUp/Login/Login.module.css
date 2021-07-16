@@ -9,6 +9,23 @@
   text-align: center;
 }
 
+.messageDiv {
+  text-align: center;
+  height: 2rem;
+}
+
+.message {
+  font-size: 0.8rem;
+}
+
+.failureMsg {
+  color: red;
+}
+
+.successMsg {
+  color: green;
+}
+
 @keyframes shake {
   0% { -webkit-transform: translate(4px, 0px) rotate(0deg); } 
   10% { -webkit-transform: translate(-3px, 0px) rotate(0deg); }

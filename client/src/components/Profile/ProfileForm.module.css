@@ -1,7 +1,8 @@
 .profileForm {
     width: 90%;
     max-width: 30rem;
-    margin: 2rem auto;
+    margin: auto;
+    margin-bottom: 2rem;
     padding: 2rem;
 }
   
@@ -35,4 +36,21 @@
   flex: 1;
   line-height: 4rem;    
   font-size: 0.9em;
+}
+
+.messageDiv {
+  text-align: center;
+  height: 2rem;
+}
+
+.message {
+  font-size: 0.8rem;
+}
+
+.failureMsg {
+  color: red;
+}
+
+.successMsg {
+  color: green;
 }

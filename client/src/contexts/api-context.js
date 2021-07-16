@@ -264,41 +264,42 @@ export const ApiContextProvider = (props) => {
     }
 
     // FETCH IMAGE
-    const fetchImage = useCallback(async (params) => {
+    // const fetchImage =
+        useCallback(async (params) => {
 
-        try {
-            const requestOptions = {
-                mode: 'cors',
-                method: 'GET',
-                headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/json'
+            try {
+                const requestOptions = {
+                    mode: 'cors',
+                    method: 'GET',
+                    headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                const response =
+                    await fetch('http://localhost:3000/api/uploadImage/' +
+                        user.userId + '/' +
+                        'quitting-reason',
+                        requestOptions);
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message);
                 }
-            };
 
-            const response =
-                await fetch('http://localhost:3000/api/uploadImage/' +
-                    user.userId + '/' +
-                    'quitting-reason',
-                    requestOptions);
+                setImages(prevValue => {
+                    return [...prevValue, data];
+                });
 
-            const data = await response.json();
+                return data;
 
-            if (!response.ok) {
-                throw new Error(data.message);
+            } catch (err) {
+                return { message: err.message, ok: false };
             }
 
-            setImages(prevValue => {
-                return [...prevValue, data];
-            });
-
-            return data;
-
-        } catch (err) {
-            return { message: err.message, ok: false };
-        }
-
-    }, [user.userId, user.token]);
+        }, [user.userId]);
 
     useEffect(() => {
         if (authCtx.isLoggedIn) {
@@ -306,7 +307,7 @@ export const ApiContextProvider = (props) => {
 
             const fetchProfile = fetchProfileHandler();
             const fetchLog = fetchDailyLog();
-            const fetchImg = fetchImage();
+            // const fetchImg = fetchImage();
 
             Promise.all([fetchProfile, fetchLog])
                 .then(values => {

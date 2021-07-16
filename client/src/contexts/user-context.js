@@ -55,11 +55,11 @@ export const AuthContextProvider = (props) => {
             setIsLoggedIn(true);
 
             setRegistrationComplete(false);
-            return {message: "Daily Log updated successfully", ok: true};
+            return { message: "Login successful", ok: true };
         } catch (err) {
 
             setRegistrationComplete(false);
-            return {message: err.message, ok:false};
+            return { message: err.message, ok: false };
         }
         // setIsLoading(false);
     };
@@ -71,9 +71,6 @@ export const AuthContextProvider = (props) => {
     };
 
     const registerationHandler = async (name, email, password) => {
-
-        console.log(name + " " + email + " " + password);
-        setIsLoading(true);
 
         try {
             const requestOptions = {
@@ -94,15 +91,22 @@ export const AuthContextProvider = (props) => {
                 await fetch('http://localhost:3000/api/user/register',
                     requestOptions);
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Something went wrong!');
+                throw new Error(data.message);
             }
 
             setRegistrationComplete(true);
+            return {
+                message: `Registration successful.
+                An email has been sent to your inbox. 
+            Please verify your email to proceed.`, ok: true
+            };
         } catch (err) {
             console.log(err);
+            return { message: err.message, ok: false };
         }
-        setIsLoading(false);
     }
 
     return (

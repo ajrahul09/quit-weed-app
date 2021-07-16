@@ -20,10 +20,10 @@ const emailReducer = (state, action) => {
 
 const passReducer = (state, action) => {
   if (action.type === 'PASS_CHANGE') {
-    return { value: action.val, isValid: action.val.length > 6 };
+    return { value: action.val, isValid: true };
   }
   if (action.type === 'PASS_BLUR') {
-    return { value: state.value, isValid: state.value.length > 6 };
+    return { value: state.value, isValid: true };
   }
   return { value: '', isValid: false };
 }
@@ -41,6 +41,8 @@ const Login = (props) => {
   const { isValid: passIsValid } = passEntered;
   const [isLoading, setIsLoading] = useState(false);
   const [shakeonError, setShakeonError] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState('');
 
   const authCtx = useContext(AuthContext);
 
@@ -75,7 +77,9 @@ const Login = (props) => {
     passDispatch({ type: 'PASS_BLUR' })
   };
 
-  const handleLoginError = () => {
+  const handleLoginError = (message) => {
+    setIsError(true);
+    setMessage(message);
     setShakeonError(classes.shake);
     setTimeout(() => {
       setShakeonError('');
@@ -88,10 +92,12 @@ const Login = (props) => {
     const response = await authCtx.onLogin(emailEntered.value, passEntered.value);
     setIsLoading(false);
 
-    if(!response.ok) {
-      handleLoginError();
+    if (!response.ok) {
+      handleLoginError(response.message);
       return;
     }
+
+    setMessage(response.message);
 
     return props.history.push("/home");
   };
@@ -100,45 +106,55 @@ const Login = (props) => {
     return props.history.push("/register");
   }
 
+  let msgClass = classes.successMsg;
+  if (isError) {
+    msgClass = classes.failureMsg;
+  }
+
   return (
-    <Card className={`${classes.login} ${shakeonError}`}>
-      <form onSubmit={submitHandler}>
-        <Input
-          id="email"
-          label="E-mail"
-          type="email"
-          isValid={emailIsValid}
-          value={emailEntered.value}
-          onChange={emailChangeHandler}
-          onBlur={validateEmailHandler}
-        />
-        <Input
-          id="password"
-          label="Password"
-          type="password"
-          isValid={passIsValid}
-          value={passEntered.value}
-          onChange={passwordChangeHandler}
-          onBlur={validatePasswordHandler}
-        />
-        <div className={classes.actions}>
-          <Button
-            type="submit"
-            className={classes.btn}
-            disabled={!formIsValid}
-            isLoading={isLoading}>
-            Login
-          </Button>
-        </div>
-        <div>
-          <p>If you are a new user,&nbsp;
-            <span onClick={switchToRegister}>
-              Register here
-            </span>
-          </p>
-        </div>
-      </form>
-    </Card>
+    <>
+      <Card className={`${classes.login} ${shakeonError}`}>
+        <form onSubmit={submitHandler}>
+          <Input
+            id="email"
+            label="E-mail"
+            type="email"
+            isValid={emailIsValid}
+            value={emailEntered.value}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+          />
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            isValid={passIsValid}
+            value={passEntered.value}
+            onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
+          />
+          <div className={classes.actions}>
+            <Button
+              type="submit"
+              className={classes.btn}
+              disabled={!formIsValid}
+              isLoading={isLoading}>
+              Login
+            </Button>
+          </div>
+          <div>
+            <p>If you are a new user,&nbsp;
+              <span onClick={switchToRegister}>
+                Register here
+              </span>
+            </p>
+          </div>
+        </form>
+      </Card>
+      <div className={`${msgClass} ${classes.messageDiv}`}>
+        <p className={classes.message}>{message}</p>
+      </div>
+    </>
   );
 };
 
