@@ -2,7 +2,36 @@ const router = require('express').Router();
 const User = require('../model/User');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
+const nodemailer = require("nodemailer");
+const dotenv = require('dotenv');
 const { registerValidation, loginValidation } = require('../validation');
+
+dotenv.config();
+
+let transporter = nodemailer.createTransport({    
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_ACCOUNT,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+// Confirm email
+router.get('/confirmation/:token', async (req, res) => {
+    try {
+        const decodedVal = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
+        const emailVerified = await User.updateOne({_id: decodedVal.user}, {
+            $set: {
+                emailVerified: true
+            }
+        });
+        return res.send('Email confirmed. Proceed to login');
+    } catch (err) {
+        return res.status(403).json({
+            message: 'Something went wrong.'
+        });
+    }
+});
 
 
 router.post('/register', async (req, res) => {
@@ -44,7 +73,28 @@ router.post('/register', async (req, res) => {
 
     try {
         const savedUser = await user.save();
-        res.send({ user: user._id });
+
+        // async email
+        const emailToken = jwt.sign(
+            {
+                user: savedUser._id,
+            },
+            process.env.EMAIL_SECRET,
+            {
+                expiresIn: '30d',
+            },
+        );
+
+        const url = `http://localhost:3000/api/user/confirmation/${emailToken}`;
+
+        const email = await transporter.sendMail({
+            to: user.email,
+            subject: 'Confirm Email',
+            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+        });
+
+        return res.send({ user: savedUser._id });
+
     } catch (err) {
         return res.status(403).json({
             message: 'Something went wrong.'
@@ -60,7 +110,9 @@ router.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body);
 
     if (error) {
-        return res.status(403).send(error.details[0].message)
+        return res.status(403).json({
+            message: error.details[0].message
+        });
     }
 
     // Checking if the email already exists in db
@@ -68,13 +120,23 @@ router.post('/login', async (req, res) => {
         email: req.body.email
     })
     if (!user) {
-        return res.status(403).send('Email doesn\'t exists');
+        return res.status(403).json({
+            message: 'Email doesn\'t exists.'
+        });
+    }
+
+    if (!user.emailVerified) {
+        return res.status(403).json({
+            message: 'Please confirm your email to login.'
+        });
     }
 
     // Password is correct
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) {
-        return res.status(403).send('Invalid password');
+        return res.status(403).json({
+            message: 'Invalid password.'
+        });
     }
 
     // Create and assign a token
