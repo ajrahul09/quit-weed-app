@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/SignUp/Login/Login';
 import Register from './components/SignUp/Register/Register';
 import MainHeader from './components/MainHeader/MainHeader';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 
@@ -19,7 +19,7 @@ function App() {
 
   return (
     <React.Fragment>
-      <Router>
+      <HashRouter>
         <MainHeader />
 
         <main>
@@ -39,7 +39,7 @@ function App() {
           </Switch>
         </main>
 
-      </Router>
+      </HashRouter>
     </React.Fragment>
   );
 }

@@ -19,6 +19,7 @@ mongoose.connect(
     () => console.log('Connected to db!')
 );
 
+app.use(express.static("public"));
 // Middleware
 app.use(express.json({limit: '50mb'}));
 // app.use(express.urlencoded({limit: '50mb'}));

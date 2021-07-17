@@ -80,35 +80,37 @@ const ProfileForm = (props) => {
         return date.toISOString().slice(0, 16);
     }
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
+    // Commenting below code for uploading photo and converting to base64
 
-    const onImageChange = async event => {
-        if (event.target.files && event.target.files[0]) {
-            setShowThumbnail(true);
+    // const toBase64 = file => new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = error => reject(error);
+    // });
 
-            let img = event.target.files[0];
+    // const onImageChange = async event => {
+    //     if (event.target.files && event.target.files[0]) {
+    //         setShowThumbnail(true);
 
-            let base64Img = await toBase64(img)
+    //         let img = event.target.files[0];
 
-            setQuittingReasonPhoto(base64Img);
+    //         let base64Img = await toBase64(img)
 
-            let imageObj = {
-                imageName: img.name,
-                imageData: base64Img,
-                type: 'quitting-reason'
-            }
+    //         setQuittingReasonPhoto(base64Img);
 
-            setImageUploaded(1);
-            await apiCtx.uploadImage(imageObj);
-            setImageUploaded(2);
+    //         let imageObj = {
+    //             imageName: img.name,
+    //             imageData: base64Img,
+    //             type: 'quitting-reason'
+    //         }
 
-        }
-    };
+    //         setImageUploaded(1);
+    //         await apiCtx.uploadImage(imageObj);
+    //         setImageUploaded(2);
+
+    //     }
+    // };
 
     useEffect(() => {
         if (profile) {
@@ -154,7 +156,8 @@ const ProfileForm = (props) => {
                             value={quittingReason || ''}
                             onChange={quittingReasonHandler}
                         />
-                        <Input
+                        {/* Commenting below code for uploading quitting reason photo */}    
+                        {/* <Input
                             id="quittingReasonPhoto"
                             label="Upload an image of the person or the thing you're quitting for?"
                             type="file"
@@ -174,7 +177,7 @@ const ProfileForm = (props) => {
                                     </div>
                                 </>
                             }
-                        </div>
+                        </div> */}
                         <Input
                             id="smokingTimesPerDay"
                             label="Smoke sesh's per day"
