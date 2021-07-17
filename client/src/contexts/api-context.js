@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import AuthContext from './user-context';
 
+const API_SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL;
+
 const ApiContext = React.createContext({
     profile: {},
     dailyLog: {},
@@ -37,7 +39,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/profiles/' + user.userId,
+                await fetch(`${API_SERVER_BASE_URL}/api/profiles/${user.userId}`,
                     requestOptions);
 
             if (!response.ok) {
@@ -79,7 +81,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/profiles',
+                await fetch(`${API_SERVER_BASE_URL}/api/profiles`,
                     requestOptions);
 
             const data = await response.json();
@@ -113,7 +115,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
+                await fetch(`${API_SERVER_BASE_URL}/api/dailyLog/${user.userId}`,
                     requestOptions);
 
             const data = await response.json();
@@ -157,7 +159,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/profiles/' + user.userId,
+                await fetch(`${API_SERVER_BASE_URL}/api/profiles/${user.userId}`,
                     requestOptions);
 
             const data = await response.json();
@@ -204,7 +206,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/dailyLog/' + user.userId,
+                await fetch(`${API_SERVER_BASE_URL}/api/dailyLog/${user.userId}`,
                     requestOptions);
 
             const data = await response.json();
@@ -243,7 +245,7 @@ export const ApiContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/uploadImage',
+                await fetch(`${API_SERVER_BASE_URL}/api/uploadImage`,
                     requestOptions);
 
             const data = await response.json();
@@ -278,7 +280,7 @@ export const ApiContextProvider = (props) => {
                 };
 
                 const response =
-                    await fetch('http://localhost:3000/api/uploadImage/' +
+                    await fetch(`${API_SERVER_BASE_URL}/api/uploadImage/` +
                         user.userId + '/' +
                         'quitting-reason',
                         requestOptions);

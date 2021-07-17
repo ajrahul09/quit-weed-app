@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+const API_SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL;
+
 const AuthContext = React.createContext({
     isLoading: false,
-    registrationComplete: false,
     user: {},
     isLoggedIn: false,
     onLogout: () => { },
@@ -14,7 +15,6 @@ export const AuthContextProvider = (props) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [registrationComplete, setRegistrationComplete] = useState(false);
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -26,8 +26,6 @@ export const AuthContextProvider = (props) => {
     }, [])
 
     const loginHandler = async (email, password) => {
-
-        // setIsLoading(true);
 
         try {
             const requestOptions = {
@@ -41,7 +39,7 @@ export const AuthContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/user/login',
+                await fetch(`${API_SERVER_BASE_URL}/api/user/login`,
                     requestOptions);
 
             const data = await response.json();
@@ -54,14 +52,10 @@ export const AuthContextProvider = (props) => {
             setUser(data);
             setIsLoggedIn(true);
 
-            setRegistrationComplete(false);
             return { message: "Login successful", ok: true };
         } catch (err) {
-
-            setRegistrationComplete(false);
             return { message: err.message, ok: false };
         }
-        // setIsLoading(false);
     };
 
     const logoutHandler = () => {
@@ -88,7 +82,7 @@ export const AuthContextProvider = (props) => {
             };
 
             const response =
-                await fetch('http://localhost:3000/api/user/register',
+                await fetch(`${API_SERVER_BASE_URL}/api/user/register`,
                     requestOptions);
 
             const data = await response.json();
@@ -97,14 +91,12 @@ export const AuthContextProvider = (props) => {
                 throw new Error(data.message);
             }
 
-            setRegistrationComplete(true);
             return {
                 message: `Registration successful.
                 An email has been sent to your inbox. 
             Please verify your email to proceed.`, ok: true
             };
         } catch (err) {
-            console.log(err);
             return { message: err.message, ok: false };
         }
     }
@@ -112,7 +104,6 @@ export const AuthContextProvider = (props) => {
     return (
         <AuthContext.Provider value={{
             isLoading: isLoading,
-            registrationComplete: registrationComplete,
             user: user,
             isLoggedIn: isLoggedIn,
             onLogout: logoutHandler,

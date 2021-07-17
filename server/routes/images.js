@@ -32,7 +32,6 @@ router.post('/', async (req, res) => {
         return res.json(uploadedImage);
 
     } catch (err) {
-        console.log(err);
         return res.status(403).json({
             message: 'Something went wrong.'
         });
@@ -69,7 +68,6 @@ router.get('/:userIdParam/:typeParam', async (req, res) => {
         return res.json(uploadedImage);
 
     } catch (err) {
-        console.log(err);
         return res.status(403).json({
             message: 'Something went wrong.'
         });
