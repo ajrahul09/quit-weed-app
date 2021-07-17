@@ -30,5 +30,5 @@ app.use('/api/profiles', profileRoute);
 app.use('/api/dailyLog', dailyLogRoute);
 app.use('/api/uploadImage', imagesRoute);
 
-app.listen(3000, () => console.log('Server Up and running'));
+app.listen(process.env.PORT || 3000, () => console.log('Server Up and running'));
 
