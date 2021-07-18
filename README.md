@@ -16,16 +16,15 @@ Both the subfolders contains individual package.json for their respective depend
 
 ## Getting started
 
-1. The application contains registration module which uses user verification through email. 
+1. The application contains registration module which uses user verification through email.
+It uses "nodemon" library to to send email through gmail accounts. 
 
 How to set-up an email for this app -
  - Create a new email account using Gmail or use an existing gmail account
- - Login to your gmail account to view inbox and click on "Manage your Google account" settings by clicking on the profile icon on the top right 
- - Click "Security" on the left panel and scroll down to the section "Less secure app accesss"
- - Turn on the settings by clicking on "Turn on access"
- - Now use this email credentials as described in the Deployment section mentioned below.
+ - To allow nodemon to send email turn on or enable these 2 services:
+    - Turning on less secure apps: https://myaccount.google.com/lesssecureapps
+    - Enable display unlock captcha: https://accounts.google.com/DisplayUnlockCaptcha
 
-2. The application uses MongoDB to store all the user details along with profile and progress.
 
 How to set-up MongoDB for this app - 
  - Head over to MongoDB Atlas and create an account or use existing
