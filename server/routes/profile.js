@@ -52,7 +52,6 @@ router.post('/', verify, async (req, res) => {
             });
         }
         const profile = new Profile({
-            userId: userId,
             quittingReason: req.body.quittingReason,
             smokingTimesPerDay: req.body.smokingTimesPerDay,
             smokingTimesPerWeek: req.body.smokingTimesPerWeek,

@@ -29,7 +29,7 @@ const loginValidation = data => {
 // Register profile validation
 const newProfileValidation = data => {
     const schema = Joi.object({
-        userId: Joi.string().required(),
+        userId: Joi.string(),
         quittingReason: Joi.string(),
         smokingTimesPerDay: Joi.number(),
         smokingTimesPerWeek: Joi.number(),
@@ -45,7 +45,7 @@ const newProfileValidation = data => {
 // Register profile validation
 const dailyLogValidation = data => {
     const schema = Joi.object({
-        userId: Joi.string().required(),
+        userId: Joi.string(),
         cravings: Joi.number(),
         irritability: Joi.number(),
         anxiety: Joi.number(),

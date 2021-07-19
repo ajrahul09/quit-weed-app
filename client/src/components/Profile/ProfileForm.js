@@ -27,6 +27,7 @@ const ProfileForm = (props) => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
+        setIsError(false);
         setMessage('');
 
         let params = {
