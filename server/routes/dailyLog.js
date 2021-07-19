@@ -1,23 +1,24 @@
 const router = require('express').Router();
 const DailyLog = require('../model/DailyLog');
-const User = require('../model/User');
 const verify = require('./verifyToken');
 const { dailyLogValidation } = require('../validation');
 
+// Commented the below api so that it is not accessible to everyone
+
 // Get all dailyLogs
-router.get('/', async (req, res) => {
-    try {
-        const dailyLogs = await DailyLog.find();
-        res.json(dailyLogs);
-    } catch (err) {
-        return res.status(403).json({
-            message: 'Something went wrong.'
-        });
-    }
-})
+// router.get('/', async (req, res) => {
+//     try {
+//         const dailyLogs = await DailyLog.find();
+//         res.json(dailyLogs);
+//     } catch (err) {
+//         return res.status(403).json({
+//             message: 'Something went wrong.'
+//         });
+//     }
+// })
 
 // Fetch a specific DailyLog
-router.get('/:userIdParam', async (req, res) => {
+router.get('/:userIdParam', verify, async (req, res) => {
 
     const userId = req.params.userIdParam;
     if (!userId) {
@@ -44,7 +45,15 @@ router.get('/:userIdParam', async (req, res) => {
 })
 
 // Update a dailyLog
-router.patch('/:userIdParam', async (req, res) => {
+router.patch('/:userIdParam', verify, async (req, res) => {
+
+    // Let's validate the dailyLog before we update
+    const { error } = dailyLogValidation(req.body);
+    if (error) {
+        return res.status(403).json({
+            message: error.details[0].message
+        });
+    }
 
     const userId = req.params.userIdParam;
 

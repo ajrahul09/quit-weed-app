@@ -14,6 +14,7 @@ import DailyLog from './components/DailyLog/DailyLog';
 import DailyLogForm from './components/DailyLog/NewDailyLog/DailyLogForm';
 import DailyLogChart from './components/Charts/DailyLogChart';
 import ProfileForm from './components/Profile/ProfileForm';
+import Error from './components/Error/Error';
 
 function App() {
 
@@ -27,15 +28,17 @@ function App() {
             <PublicRoute path="/login" restricted={true} component={Login} />
             <PublicRoute path="/register" restricted={true} component={Register} />
             <PublicRoute path="/" exact restricted={false} component={LandingPage} />
-            
+
             <PrivateRoute path="/home" exact component={Home} />
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
             <PrivateRoute path="/dailyLog" exact component={DailyLog} />
             <PrivateRoute path="/dailyLogForm" exact component={DailyLogForm} />
             <PrivateRoute path="/progress" exact component={DailyLogChart} />
             <PrivateRoute path="/profileForm" exact component={ProfileForm} />
-            
-            <Route path="*" component={() => "404 not found"} />
+
+            <Route path="*">
+              <Error errorMsg="404: PAGE NOT FOUND" />
+            </Route>
           </Switch>
         </main>
 

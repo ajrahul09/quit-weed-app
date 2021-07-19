@@ -1,0 +1,10 @@
+.errorContainer {
+    width: 90%;
+    max-width: 25rem;
+    margin: 4rem auto;
+    padding: 2rem;
+}
+
+.centerAlign {
+    text-align: center
+}

@@ -21,9 +21,9 @@ const ProfileForm = (props) => {
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState('');
 
-    const [quittingReasonPhoto, setQuittingReasonPhoto] = useState('');
-    const [imageUploaded, setImageUploaded] = useState(0);
-    const [showThumbnail, setShowThumbnail] = useState(false);
+    // const [quittingReasonPhoto, setQuittingReasonPhoto] = useState('');
+    // const [imageUploaded, setImageUploaded] = useState(0);
+    // const [showThumbnail, setShowThumbnail] = useState(false);
 
     const submitHandler = async (event) => {
         event.preventDefault();
@@ -31,7 +31,7 @@ const ProfileForm = (props) => {
 
         let params = {
             quittingReason: quittingReason,
-            quittingReasonPhoto: quittingReasonPhoto,
+            // quittingReasonPhoto: quittingReasonPhoto,
             smokingTimesPerDay: smokingTimesPerDay,
             smokingTimesPerWeek: smokingTimesPerWeek,
             smokingCostPerWeek: smokingCostPerWeek,
@@ -156,7 +156,7 @@ const ProfileForm = (props) => {
                             value={quittingReason || ''}
                             onChange={quittingReasonHandler}
                         />
-                        {/* Commenting below code for uploading quitting reason photo */}    
+                        {/* Commenting below code for uploading quitting reason photo */}
                         {/* <Input
                             id="quittingReasonPhoto"
                             label="Upload an image of the person or the thing you're quitting for?"
@@ -213,7 +213,8 @@ const ProfileForm = (props) => {
                                 type="submit"
                                 className={styles.btn}
                                 isLoading={isLoading}
-                                disabled={imageUploaded === 1 ? true : false}>
+                                // disabled={imageUploaded === 1 ? true : false}
+                            >
                                 Submit
                             </Button>
                         </div>

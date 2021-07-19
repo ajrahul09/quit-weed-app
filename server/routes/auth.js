@@ -27,9 +27,7 @@ router.get('/confirmation/:token', async (req, res) => {
         });
         return res.send('Email confirmed. Proceed to login');
     } catch (err) {
-        return res.status(403).json({
-            message: 'Something went wrong.'
-        });
+        return res.status(403).send('Something went wrong.');
     }
 });
 

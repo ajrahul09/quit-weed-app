@@ -74,6 +74,7 @@ export const ApiContextProvider = (props) => {
                 mode: 'cors',
                 method: 'POST',
                 headers: {
+                    'auth-token': user.token,
                     'Accept': '*/*',
                     'Content-Type': 'application/json'
                 },
@@ -152,6 +153,7 @@ export const ApiContextProvider = (props) => {
                 mode: 'cors',
                 method: 'PATCH',
                 headers: {
+                    'auth-token': user.token,
                     'Accept': '*/*',
                     'Content-Type': 'application/json'
                 },
@@ -199,6 +201,7 @@ export const ApiContextProvider = (props) => {
                 mode: 'cors',
                 method: 'PATCH',
                 headers: {
+                    'auth-token': user.token,
                     'Accept': '*/*',
                     'Content-Type': 'application/json'
                 },
@@ -238,6 +241,7 @@ export const ApiContextProvider = (props) => {
                 mode: 'cors',
                 method: 'POST',
                 headers: {
+                    'auth-token': user.token,
                     'Accept': '*/*',
                     'Content-Type': 'application/json'
                 },
@@ -274,6 +278,7 @@ export const ApiContextProvider = (props) => {
                     mode: 'cors',
                     method: 'GET',
                     headers: {
+                        'auth-token': user.token,
                         'Accept': '*/*',
                         'Content-Type': 'application/json'
                     }
@@ -301,7 +306,7 @@ export const ApiContextProvider = (props) => {
                 return { message: err.message, ok: false };
             }
 
-        }, [user.userId]);
+        }, [user.userId, user.token]);
 
     useEffect(() => {
         if (authCtx.isLoggedIn) {

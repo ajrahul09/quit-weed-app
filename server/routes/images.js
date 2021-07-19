@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const User = require('../model/User');
 const Image = require('../model/Image');
+const verify = require('./verifyToken');
 
 
 // SAVE AND UPDATE IMAGE
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
 
     const userId = req.body.userId;
 
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
 })
 
 // FETCH IMAGE
-router.get('/:userIdParam/:typeParam', async (req, res) => {
+router.get('/:userIdParam/:typeParam', verify, async (req, res) => {
 
     const userId = req.params.userIdParam;
     const type = req.params.typeParam;

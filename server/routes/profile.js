@@ -5,25 +5,29 @@ const DailyLog = require('../model/DailyLog')
 const verify = require('./verifyToken');
 const { newProfileValidation } = require('../validation');
 
+// Commented the below api so that it is not accessible to everyone
+
 // Get all profiles
-router.get('/', async (req, res) => {
-    try {
-        const profiles = await Profile.find();
-        res.json(profiles);
-    } catch (err) {
-        return res.status(403).json({
-            message: 'Something went wrong.'
-        });
-    }
-})
+// router.get('/', async (req, res) => {
+//     try {
+//         const profiles = await Profile.find();
+//         res.json(profiles);
+//     } catch (err) {
+//         return res.status(403).json({
+//             message: 'Something went wrong.'
+//         });
+//     }
+// })
 
 // Add a profile
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
 
     // Let's validate the profile before we save
     const { error } = newProfileValidation(req.body);
     if (error) {
-        return res.status(403).send(error.details[0].message)
+        return res.status(403).json({
+            message: error.details[0].message
+        });
     }
 
     const userId = req.body.userId;
@@ -74,7 +78,7 @@ router.post('/', async (req, res) => {
 })
 
 // Fetch a specific Profile
-router.get('/:userIdParam', async (req, res) => {
+router.get('/:userIdParam', verify, async (req, res) => {
 
     const userId = req.params.userIdParam;
     if (!userId) {
@@ -101,7 +105,16 @@ router.get('/:userIdParam', async (req, res) => {
 })
 
 // Update a specific profile
-router.patch('/:userIdParam', async (req, res) => {
+router.patch('/:userIdParam', verify, async (req, res) => {
+
+    // Let's validate the profile before we update
+    const { error } = newProfileValidation(req.body);
+    if (error) {
+        return res.status(403).json({
+            message: error.details[0].message
+        });
+    }
+
     const userId = req.params.userIdParam;
 
     const existingProfile = await Profile.findOne({
@@ -140,7 +153,7 @@ router.patch('/:userIdParam', async (req, res) => {
 })
 
 // Update the sober date for a specific profile
-router.patch('/soberDate/:userIdParam', async (req, res) => {
+router.patch('/soberDate/:userIdParam', verify, async (req, res) => {
     let userId = req.params.userIdParam;
 
     const existingProfile = await Profile.findOne({
