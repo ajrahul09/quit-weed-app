@@ -11,7 +11,8 @@ const ApiContext = React.createContext({
     saveProfile: params => { },
     updateProfile: params => { },
     updateDailyLog: params => { },
-    uploadImage: params => { }
+    uploadImage: params => { },
+    resetState: params => { }
 })
 
 export const ApiContextProvider = (props) => {
@@ -271,42 +272,49 @@ export const ApiContextProvider = (props) => {
 
     // FETCH IMAGE
     // const fetchImage =
-        useCallback(async (params) => {
+    useCallback(async (params) => {
 
-            try {
-                const requestOptions = {
-                    mode: 'cors',
-                    method: 'GET',
-                    headers: {
-                        'auth-token': user.token,
-                        'Accept': '*/*',
-                        'Content-Type': 'application/json'
-                    }
-                };
-
-                const response =
-                    await fetch(`${API_SERVER_BASE_URL}/api/uploadImage/` +
-                        user.userId + '/' +
-                        'quitting-reason',
-                        requestOptions);
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.message);
+        try {
+            const requestOptions = {
+                mode: 'cors',
+                method: 'GET',
+                headers: {
+                    'auth-token': user.token,
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
                 }
+            };
 
-                setImages(prevValue => {
-                    return [...prevValue, data];
-                });
+            const response =
+                await fetch(`${API_SERVER_BASE_URL}/api/uploadImage/` +
+                    user.userId + '/' +
+                    'quitting-reason',
+                    requestOptions);
 
-                return data;
+            const data = await response.json();
 
-            } catch (err) {
-                return { message: err.message, ok: false };
+            if (!response.ok) {
+                throw new Error(data.message);
             }
 
-        }, [user.userId, user.token]);
+            setImages(prevValue => {
+                return [...prevValue, data];
+            });
+
+            return data;
+
+        } catch (err) {
+            return { message: err.message, ok: false };
+        }
+
+    }, [user.userId, user.token]);
+
+    const resetState = () => {
+        setProfile('');
+        setDailyLog('');
+        setImages('');
+        setIsLoading(false);
+    }
 
     useEffect(() => {
         if (authCtx.isLoggedIn) {
@@ -335,7 +343,8 @@ export const ApiContextProvider = (props) => {
             saveProfile: saveProfile,
             updateProfile: updateProfile,
             updateDailyLog: updateDailyLog,
-            uploadImage: uploadImage
+            uploadImage: uploadImage,
+            resetState: resetState
         }}
         >
             {props.children}

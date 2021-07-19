@@ -18,6 +18,11 @@ const Navigation = (props) => {
     updatedProfile = true;
   }
 
+  const onLogout = () => {
+    apiCtx.resetState();
+    ctx.onLogout();
+  }
+
   return (
     <header className="toolbar">
       <nav className="toolbar__navigation">
@@ -75,7 +80,7 @@ const Navigation = (props) => {
             )}
             {ctx.isLoggedIn && (
               <li>
-                <button className="logout-button" onClick={ctx.onLogout}>Logout</button>
+                <button className="logout-button" onClick={onLogout}>Logout</button>
               </li>
             )}
           </ul>

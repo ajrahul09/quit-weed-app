@@ -23,6 +23,11 @@ const SideDrawer = props => {
     drawerClasses = 'side-drawer open';
   }
 
+  const onLogout = () => {
+    apiCtx.resetState();
+    ctx.onLogout();
+  }
+
   return (
     <nav className={drawerClasses}>
       <ul>
@@ -71,7 +76,7 @@ const SideDrawer = props => {
             )}
             {ctx.isLoggedIn && (
               <li>
-                <button className="logout-button-sidebar" onClick={ctx.onLogout}>Logout</button>
+                <button className="logout-button-sidebar" onClick={onLogout}>Logout</button>
               </li>
             )}
           </ul>

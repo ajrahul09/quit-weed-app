@@ -8,7 +8,7 @@ const AuthContext = React.createContext({
     isLoggedIn: false,
     onLogout: () => { },
     onLogin: (email, password) => { },
-    onRegister: (name, email, password) => { },
+    onRegister: (name, email, password) => { }
 })
 
 export const AuthContextProvider = (props) => {
