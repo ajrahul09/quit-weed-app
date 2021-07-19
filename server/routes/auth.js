@@ -8,7 +8,7 @@ const { registerValidation, loginValidation } = require('../validation');
 
 dotenv.config();
 
-let transporter = nodemailer.createTransport({    
+let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
         user: process.env.EMAIL_ACCOUNT,
@@ -20,7 +20,7 @@ let transporter = nodemailer.createTransport({
 router.get('/confirmation/:token', async (req, res) => {
     try {
         const decodedVal = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
-        const emailVerified = await User.updateOne({_id: decodedVal.user}, {
+        const emailVerified = await User.updateOne({ _id: decodedVal.user }, {
             $set: {
                 emailVerified: true
             }
@@ -69,19 +69,20 @@ router.post('/register', async (req, res) => {
         password: hashedPassword
     });
 
+    let savedUser = {};
+
     try {
-        const savedUser = await user.save();
+        savedUser = await user.save();
 
-        // async email
         const emailToken = jwt.sign({
-                user: savedUser._id,
-            },
-            process.env.EMAIL_SECRET, {
-                expiresIn: '30d',
-            },
-        );
+            user: savedUser._id,
+        }, 
+        process.env.EMAIL_SECRET, 
+        {
+            expiresIn: '30d',
+        });
 
-        const baseUrl = req.protocol + '://' + req.get('host')
+        const baseUrl = req.protocol + '://' + req.get('host');
 
         const url = `${baseUrl}/api/user/confirmation/${emailToken}`;
 
@@ -98,6 +99,10 @@ router.post('/register', async (req, res) => {
         return res.status(403).json({
             message: 'Something went wrong.'
         });
+    } finally {
+        if (savedUser._id) {
+            User.findOneAndRemove({_id: savedUser._id});
+        }
     }
 
 });

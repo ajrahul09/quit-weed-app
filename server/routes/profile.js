@@ -52,6 +52,7 @@ router.post('/', verify, async (req, res) => {
             });
         }
         const profile = new Profile({
+            userId: userId,
             quittingReason: req.body.quittingReason,
             smokingTimesPerDay: req.body.smokingTimesPerDay,
             smokingTimesPerWeek: req.body.smokingTimesPerWeek,
@@ -65,9 +66,9 @@ router.post('/', verify, async (req, res) => {
         })
 
         const savedProfile = await profile.save();
-        const savedDailyLog = await dailyLog.save();
+        await dailyLog.save();
 
-        res.json(savedProfile);
+        return res.json(savedProfile);
 
     } catch (err) {
         return res.status(403).json({
@@ -90,12 +91,13 @@ router.get('/:userIdParam', verify, async (req, res) => {
         const existingProfile = await Profile.findOne({
             userId: userId
         })
+        
         if (!existingProfile) {
             return res.status(403).json({
                 message: 'No profile exists for userId: ' + userId
             });
         }
-        res.json(existingProfile);
+        return res.json(existingProfile);
     } catch (err) {
         return res.status(403).json({
             message: 'Something went wrong.'
