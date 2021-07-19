@@ -8,8 +8,6 @@ const { registerValidation, loginValidation } = require('../validation');
 
 dotenv.config();
 
-const API_SERVER_URL = process.env.API_SERVER_BASE_URL;
-
 let transporter = nodemailer.createTransport({    
     service: "gmail",
     auth: {
@@ -77,17 +75,17 @@ router.post('/register', async (req, res) => {
         const savedUser = await user.save();
 
         // async email
-        const emailToken = jwt.sign(
-            {
+        const emailToken = jwt.sign({
                 user: savedUser._id,
             },
-            process.env.EMAIL_SECRET,
-            {
+            process.env.EMAIL_SECRET, {
                 expiresIn: '30d',
             },
         );
 
-        const url = `${API_SERVER_URL}/api/user/confirmation/${emailToken}`;
+        const baseUrl = req.protocol + '://' + req.get('host')
+
+        const url = `${baseUrl}/api/user/confirmation/${emailToken}`;
 
         const email = await transporter.sendMail({
             to: user.email,
