@@ -65,7 +65,7 @@ export const ApiContextProvider = (props) => {
             userId: user.userId,
             quittingReason: params.quittingReason,
             smokingTimesPerDay: params.smokingTimesPerDay,
-            smokingTimesPerWeek: params.smokingTimesPerWeek,
+            hoursStonedPerDay: params.hoursStonedPerDay,
             smokingCostPerWeek: params.smokingCostPerWeek,
             soberDate: params.soberDate
         }
@@ -144,7 +144,7 @@ export const ApiContextProvider = (props) => {
             quittingReason: params.quittingReason,
             quittingReasonPhoto: params.quittingReasonPhoto,
             smokingTimesPerDay: params.smokingTimesPerDay,
-            smokingTimesPerWeek: params.smokingTimesPerWeek,
+            hoursStonedPerDay: params.hoursStonedPerDay,
             smokingCostPerWeek: params.smokingCostPerWeek,
             soberDate: params.soberDate
         }

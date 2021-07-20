@@ -32,7 +32,7 @@ const newProfileValidation = data => {
         userId: Joi.string(),
         quittingReason: Joi.string(),
         smokingTimesPerDay: Joi.number(),
-        smokingTimesPerWeek: Joi.number(),
+        hoursStonedPerDay: Joi.number(),
         smokingCostPerWeek: Joi.number(),
         soberDate: Joi.date()
     });

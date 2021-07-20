@@ -41,6 +41,12 @@
     font-size: 12px;
   }
 
+  .inputDiv {
+    display: flex;
+    flex-direction: row;
+    flex: 2;
+  }
+
   
 @media (min-width: 768px) {
     .control {

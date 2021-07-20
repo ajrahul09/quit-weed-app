@@ -22,7 +22,7 @@ const NewDailyLog = (props) => {
     const DailyLogHistory = () => {
         if (props.dailyLog && props.dailyLog.length > 0) {
             return (
-                <div>
+                <div className={styles.dailyLogRow}>
                     {props.dailyLog.map((log, index) => {
                         return <CalendarDailyLog log={log} key={index} />
                     })}
@@ -36,12 +36,14 @@ const NewDailyLog = (props) => {
             <div className={styles.calendarDiv}>
                 <div style={{ flex: 1 }}></div>
                 <div className={styles.calendar}></div>
-                <div className={styles.logHistoryDate}>
-                    {dateFormatter(new Date(log.createdTime))}
-                </div>
-                <div className={styles.logHistoryStats}>
-                    <p>Cravings: {log.cravings}/10</p>
-                    <p>Motivation: {log.motivation}/10</p>
+                <div className={styles.dailyLogDate}>
+                    <div className={styles.logHistoryDate}>
+                        {dateFormatter(new Date(log.createdTime))}
+                    </div>
+                    <div className={styles.logHistoryStats}>
+                        <p>Cravings: {log.cravings}/10</p>
+                        <p>Motivation: {log.motivation}/10</p>
+                    </div>
                 </div>
                 <div style={{ flex: 1 }}></div>
             </div>

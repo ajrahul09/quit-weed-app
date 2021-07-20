@@ -94,7 +94,9 @@ export const AuthContextProvider = (props) => {
             return {
                 message: `Registration successful.
                 An email has been sent to your inbox. 
-            Please verify your email to proceed.`, ok: true
+            Please verify your email to proceed. 
+            [If the email has not arrived 
+            please be sure to check your spam folder.]`, ok: true
             };
         } catch (err) {
             return { message: err.message, ok: false };

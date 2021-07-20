@@ -55,7 +55,7 @@ router.post('/', verify, async (req, res) => {
             userId: userId,
             quittingReason: req.body.quittingReason,
             smokingTimesPerDay: req.body.smokingTimesPerDay,
-            smokingTimesPerWeek: req.body.smokingTimesPerWeek,
+            hoursStonedPerDay: req.body.hoursStonedPerDay,
             smokingCostPerWeek: req.body.smokingCostPerWeek,
             soberDate: req.body.soberDate
         })
@@ -133,7 +133,7 @@ router.patch('/:userIdParam', verify, async (req, res) => {
             $set: {
                 quittingReason: req.body.quittingReason,
                 smokingTimesPerDay: req.body.smokingTimesPerDay,
-                smokingTimesPerWeek: req.body.smokingTimesPerWeek,
+                hoursStonedPerDay: req.body.hoursStonedPerDay,
                 smokingCostPerWeek: req.body.smokingCostPerWeek,
                 soberDate: req.body.soberDate,
                 modifiedTime: Date.now()

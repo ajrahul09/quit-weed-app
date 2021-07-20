@@ -30,6 +30,8 @@
 .messageDiv {
   text-align: center;
   height: 2rem;
+  max-width: 60%;
+  margin: auto;
 }
 
 .message {

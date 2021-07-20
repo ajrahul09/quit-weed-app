@@ -87,9 +87,11 @@ router.post('/register', async (req, res) => {
         const url = `${baseUrl}/api/user/confirmation/${emailToken}`;
 
         const email = await transporter.sendMail({
+            from: `QuitWeed.org ${process.env.EMAIL_ACCOUNT}`,
             to: user.email,
-            subject: 'Confirm Email',
-            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+            subject: 'Account activation',
+            html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
+            text: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
         });
 
         return res.send({ user: savedUser._id });

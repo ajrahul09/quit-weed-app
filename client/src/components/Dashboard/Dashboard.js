@@ -13,14 +13,15 @@ const Dashboard = (props) => {
     const {
         quittingReason,
         // smokingTimesPerDay,
-        // smokingTimesPerWeek,
+        hoursStonedPerDay,
         smokingCostPerWeek,
         soberDate
     } = profile;
 
-    const [elapsedSoberDate, setElapsedSoberDate] = useState("");
-    const [moneySavedTillNow, setMoneySavedTillNow] = useState("");
-    const [moneySavedPerYear, setMoneySavedPerYear] = useState("");
+    const [elapsedSoberDate, setElapsedSoberDate] = useState("0d 00h 00m 00s");
+    const [moneySavedTillNow, setMoneySavedTillNow] = useState("0.00");
+    const [moneySavedPerYear, setMoneySavedPerYear] = useState("0.00");
+    const [hoursNotStoned, setHoursNotStoned] = useState("0");
 
     const timeElapsedSoberDate = useCallback(() => {
         setInterval(() => {
@@ -60,7 +61,10 @@ const Dashboard = (props) => {
 
         let moneySavedPerYear = smokingCostPerWeek * 52;
         setMoneySavedPerYear(moneySavedPerYear.toFixed(2));
-    }, [smokingCostPerWeek, soberDate]);
+
+        let hoursNotStoned = hoursStonedPerDay / 24 * timeDiff / (1000 * 60 * 60);
+        setHoursNotStoned(hoursNotStoned.toFixed(2));
+    }, [smokingCostPerWeek, soberDate, hoursStonedPerDay]);
 
 
     useEffect(() => {
@@ -87,10 +91,18 @@ const Dashboard = (props) => {
                     </div>
 
                     <div className={styles.moneySavedContainer}>
-                        <span className={styles.moneySavedLabel}>Money saved</span>
-                        <div className={styles.moneySaved}>${moneySavedTillNow}</div>
+                        <div className={styles.hoursMoneySavedDiv}>
+                            <div className={styles.hoursMoneySaved}>
+                                <span className={styles.moneySavedLabel}>Not stoned</span>
+                                <div className={styles.moneySaved}>{hoursNotStoned} hrs</div>
+                            </div>
+                            <div className={styles.hoursMoneySaved}>
+                                <span className={styles.moneySavedLabel}>Money saved</span>
+                                <div className={styles.moneySaved}>${moneySavedTillNow}</div>
+                            </div>
+                        </div>
                         <br />
-                        <span className={styles.moneySavedLabel}>Per year</span>
+                        <span className={styles.moneySavedLabel}>Money saved per year</span>
                         <div className={styles.moneySaved}>${moneySavedPerYear}</div>
                     </div><hr />
 

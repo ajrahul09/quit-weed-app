@@ -1,5 +1,5 @@
 .newDailyLogContainer {
-    width: 60%;
+    width: 80%;
     max-width: 30rem;
     margin: 2rem auto;
 }
@@ -41,9 +41,15 @@
     color: #585858
 }
 
+.dailyLogRow {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .calendarDiv {
     display: flex;    
-    margin: 1rem 0rem;
+    margin: 1rem auto;
+    max-width: 30rem;
 }
 
 .calendar {
@@ -55,13 +61,44 @@
     background-repeat: no-repeat;
 }
 
+.dailyLogDate {
+    display: flex;
+}
+
 .logHistoryDate {
     padding: 1rem 2rem;
     background-color: beige;
+    height: 8rem;
 }
 
 .logHistoryStats {
     padding: 1.5rem 2rem;
     background-color: #dab344;
     color: white;
+    height: 8rem;
+}
+
+@media (max-width: 768px) {
+    .calendarDiv {
+        flex-direction: column;
+        margin: 1rem auto;
+    }
+
+    .calendar {
+        width: 100%;
+    }
+
+    .dailyLogDate {
+        display: flex;
+    }
+
+    .logHistoryDate {
+        width: 50%;
+        padding: 1rem 0.5rem;
+    }
+
+    .logHistoryStats {
+        width: 50%;
+        padding: 1.0rem 0.5rem;
+    }
 }

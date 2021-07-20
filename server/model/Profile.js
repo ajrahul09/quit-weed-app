@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
         // contentType: String
     // },
     smokingTimesPerDay: Number,
-    smokingTimesPerWeek: Number,
+    hoursStonedPerDay: Number,
     smokingCostPerWeek: Number,
     soberDate: Date,
     createdTime: {

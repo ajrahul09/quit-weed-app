@@ -9,17 +9,19 @@ const Input = (props) => {
                 }`}
         >
             <label htmlFor={props.id}>{props.label}</label>
-            {props.displayMinMax && <span className={classes.minMax}>{props.min}</span>}
-            <input
-                type={props.type}
-                id={props.id}
-                value={props.value}
-                onChange={props.onChange}
-                onBlur={props.onBlur}
-                max={props.max}
-                min={props.min}
-            />
-            {props.displayMinMax && <span className={classes.minMax}>{props.max}</span>}
+            <div className={classes.inputDiv}>
+                {props.displayMinMax && <span className={classes.minMax}>{props.min}</span>}
+                <input
+                    type={props.type}
+                    id={props.id}
+                    value={props.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlur}
+                    max={props.max}
+                    min={props.min}
+                />
+                {props.displayMinMax && <span className={classes.minMax}>{props.max}</span>}
+            </div>
         </div>
     )
 }

@@ -14,7 +14,7 @@ const ProfileForm = (props) => {
 
     const [quittingReason, setQuittingReason] = useState('');
     const [smokingTimesPerDay, setSmokingTimesPerDay] = useState(0);
-    const [smokingTimesPerWeek, setSmokingTimesPerWeek] = useState(0);
+    const [hoursStonedPerDay, setHoursStonedPerDay] = useState(0);
     const [smokingCostPerWeek, setSmokingCostPerWeek] = useState(0);
     const [soberDate, setSoberDate] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,7 @@ const ProfileForm = (props) => {
             quittingReason: quittingReason,
             // quittingReasonPhoto: quittingReasonPhoto,
             smokingTimesPerDay: smokingTimesPerDay,
-            smokingTimesPerWeek: smokingTimesPerWeek,
+            hoursStonedPerDay: hoursStonedPerDay,
             smokingCostPerWeek: smokingCostPerWeek,
             soberDate: soberDate
         }
@@ -64,8 +64,8 @@ const ProfileForm = (props) => {
         setSmokingTimesPerDay(event.target.value);
     };
 
-    const smokingTimesPerWeekHandler = (event) => {
-        setSmokingTimesPerWeek(event.target.value);
+    const hoursStonedPerDayHandler = (event) => {
+        setHoursStonedPerDay(event.target.value);
     };
 
     const smokingCostPerWeekHandler = (event) => {
@@ -117,14 +117,14 @@ const ProfileForm = (props) => {
         if (profile) {
             setQuittingReason(profile.quittingReason);
             setSmokingTimesPerDay(profile.smokingTimesPerDay);
-            setSmokingTimesPerWeek(profile.smokingTimesPerWeek);
+            setHoursStonedPerDay(profile.hoursStonedPerDay);
             setSmokingCostPerWeek(profile.smokingCostPerWeek);
             setSoberDate(profile.soberDate ? dateFormatter(new Date(profile.soberDate)) : '');
         }
         return () => {
             setQuittingReason('')
             setSmokingTimesPerDay(0);
-            setSmokingTimesPerWeek(0);
+            setHoursStonedPerDay(0);
             setSmokingCostPerWeek(0);
             setSoberDate('');
         }
@@ -152,7 +152,7 @@ const ProfileForm = (props) => {
                     <form onSubmit={submitHandler}>
                         <Input
                             id="quittingReason"
-                            label="Who and what are you quitting for?"
+                            label="Who or what are you quitting for?"
                             type="text"
                             value={quittingReason || ''}
                             onChange={quittingReasonHandler}
@@ -187,11 +187,11 @@ const ProfileForm = (props) => {
                             onChange={smokingTimesPerDayHandler}
                         />
                         <Input
-                            id="smokingTimesPerWeek"
-                            label="Smoke sesh's per week"
+                            id="hoursStonedPerDay"
+                            label="How many hours per day were you stoned?"
                             type="number"
-                            value={smokingTimesPerWeek || 0}
-                            onChange={smokingTimesPerWeekHandler}
+                            value={hoursStonedPerDay || 0}
+                            onChange={hoursStonedPerDayHandler}
                         />
                         <Input
                             id="smokingCostPerWeek"

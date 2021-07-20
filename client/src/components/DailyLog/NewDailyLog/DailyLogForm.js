@@ -86,7 +86,7 @@ const DailyLogForm = (props) => {
             return;
         }
 
-        redirectToDailyLog(); 
+        redirectToDailyLog();
 
     }
 
@@ -103,8 +103,10 @@ const DailyLogForm = (props) => {
             </div>
 
             <Card className={styles.dailyLogForm}>
-                <span className={styles.formlegend}>
-                    * on a scale of 0 - 10, with 10 being the maximum</span>
+                <div className={styles.formlegendDiv}>
+                    <span className={styles.formlegend}>
+                        * on a scale of 0 - 10, with 10 being the maximum</span>
+                </div>
                 <br />
                 <form onSubmit={submitHandler}>
                     <Input

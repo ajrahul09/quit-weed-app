@@ -55,3 +55,18 @@
     font-style: italic;
     color: #616161;
 }
+
+.hoursMoneySavedDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.hoursMoneySaved {
+    margin: 1rem 2rem;
+}
+
+@media (max-width: 768px) {
+    .hoursMoneySavedDiv {
+        flex-direction: column;
+    }
+}
