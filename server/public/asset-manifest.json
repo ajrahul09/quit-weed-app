@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.041b755c.chunk.css",
+    "main.css": "/static/css/main.0b7ca580.chunk.css",
     "main.js": "/static/js/main.be04cd80.chunk.js",
     "main.js.map": "/static/js/main.be04cd80.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.71d98b52.js",
@@ -10,7 +10,7 @@
     "static/js/3.25eca9c9.chunk.js": "/static/js/3.25eca9c9.chunk.js",
     "static/js/3.25eca9c9.chunk.js.map": "/static/js/3.25eca9c9.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.041b755c.chunk.css.map": "/static/css/main.041b755c.chunk.css.map",
+    "static/css/main.0b7ca580.chunk.css.map": "/static/css/main.0b7ca580.chunk.css.map",
     "static/js/2.6b0378d3.chunk.js.LICENSE.txt": "/static/js/2.6b0378d3.chunk.js.LICENSE.txt",
     "static/media/NewDailyLog.module.css": "/static/media/dailyLog-calendar.c4a30d78.jpg",
     "static/media/Dashboard.module.css": "/static/media/new-path-journey.23a7286a.png",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.71d98b52.js",
     "static/js/2.6b0378d3.chunk.js",
-    "static/css/main.041b755c.chunk.css",
+    "static/css/main.0b7ca580.chunk.css",
     "static/js/main.be04cd80.chunk.js"
   ]
 }
