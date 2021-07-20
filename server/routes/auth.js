@@ -10,6 +10,9 @@ dotenv.config();
 
 let transporter = nodemailer.createTransport({
     service: "gmail",
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: true,
     auth: {
         user: process.env.EMAIL_ACCOUNT,
         pass: process.env.EMAIL_PASSWORD
@@ -89,7 +92,7 @@ router.post('/register', async (req, res) => {
         const email = await transporter.sendMail({
             from: `QuitWeed.org ${process.env.EMAIL_ACCOUNT}`,
             to: user.email,
-            subject: 'Account activation',
+            subject: 'Confirm your account on QuitWeed.org',
             html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
             text: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
         });
