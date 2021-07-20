@@ -73,6 +73,7 @@ router.post('/register', async (req, res) => {
     });
 
     let savedUser = {};
+    let error = false;
 
     try {
         
@@ -105,13 +106,14 @@ router.post('/register', async (req, res) => {
         return res.send({ user: savedUser._id });
 
     } catch (err) {
+        error = true;
         console.log(err);
         return res.status(403).json({
             message: 'Something went wrong.'
         });
     } finally {
         try {
-            if (savedUser._id) {
+            if (error && savedUser._id) {
                 const deletedUser = await User.findOneAndRemove({ _id: savedUser._id });
             }
         } catch (err) {
