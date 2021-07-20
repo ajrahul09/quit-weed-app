@@ -75,15 +75,16 @@ router.post('/register', async (req, res) => {
     let savedUser = {};
 
     try {
+        
         savedUser = await user.save();
 
         const emailToken = jwt.sign({
             user: savedUser._id,
-        }, 
-        process.env.EMAIL_SECRET, 
-        {
-            expiresIn: '30d',
-        });
+        },
+            process.env.EMAIL_SECRET,
+            {
+                expiresIn: '30d',
+            });
 
         const baseUrl = req.protocol + '://' + req.get('host');
 
@@ -109,8 +110,12 @@ router.post('/register', async (req, res) => {
             message: 'Something went wrong.'
         });
     } finally {
-        if (savedUser._id) {
-            User.findOneAndRemove({_id: savedUser._id});
+        try {
+            if (savedUser._id) {
+                User.findOneAndRemove({ _id: savedUser._id });
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
 
