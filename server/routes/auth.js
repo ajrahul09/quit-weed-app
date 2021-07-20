@@ -93,8 +93,12 @@ router.post('/register', async (req, res) => {
             from: `QuitWeed.org ${process.env.EMAIL_ACCOUNT}`,
             to: user.email,
             subject: 'Confirm your account on QuitWeed.org',
-            html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
-            text: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
+            html: `Thanks for signing up with QuitWeed.org! 
+            You must follow this link to activate your account:
+            <br/><br/><a href="${url}">${url}</a>`,
+            text: `Thanks for signing up with QuitWeed.org! 
+            You must follow this link to activate your account:
+            <br/><br/><a href="${url}">${url}</a>`,
         });
 
         return res.send({ user: savedUser._id });
