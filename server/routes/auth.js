@@ -112,7 +112,7 @@ router.post('/register', async (req, res) => {
     } finally {
         try {
             if (savedUser._id) {
-                User.findOneAndRemove({ _id: savedUser._id });
+                const deletedUser = await User.findOneAndRemove({ _id: savedUser._id });
             }
         } catch (err) {
             console.log(err);
