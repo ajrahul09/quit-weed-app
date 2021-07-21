@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+## QUITWEED.ORG
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This subfolder contains the client built over React.js. 
 
-## Available Scripts
+## MODULES
 
-In the project directory, you can run:
+The source code is broken down into multiple modules inside the "/client/src" folder.
 
-### `npm start`
+### SRC/ASSETS
+This folder contains all the images used inside the application. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### SRC/CONTEXTS
+This contains the global contexts used inside the application
+1. api-context.js: Contains GET, POST AND PATCH api calls directed to the server e.g. for profile and dailylog
+2. user-context.js: Contains api calls directed to the server for login and registration
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### SRC/ROUTES
+This contains the HOC's for the routes used in the application
 
-### `npm test`
+### SRC/COMPONENTS
+As the name suggests, it contains all the different components used inside the front-end application. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. /Backdrop: Contains the component for the backdrop when user opens the burger menu on the mobile screen.
+2. /Charts: Contains the charts used for the dailyLogs. This uses the Highchart library for building charts
+3. /DailyLog: Contains the component used for the displaying the daily logs as list. It also contains the form where user fills in the daily log. 
+4. /Dashboard: Contains the component used for displaying the "Time smoke free", "Money saved", "Money saved in a year" and others.
+5. /Home: It navigates the user to either Dashboard or the ProfileForm. If user is using it for the first time, it redirects it to ProfileForm so the user can update his/her profile or else Dashboard.
+6. /LandingPage: It contains the landing page as the name suggests which welcomes the user to QuitWeed.org and contains the app description and its uses.
+7. /MainHeader: This is the nav bar used in the app which you see on the top with links like Login, Register, Dashboard, Profile, Profile, Logout, etc
+8. /Profile: It contains the ProfileForm where users can create or update its profile.
+9. /SideDrawer: It contains the section which opens up when you click on the Burger menu.
+10. /SignUp: Contains the signup component.
+11. /UI: Contains the UI components for Input field, Button or Card.
+12. App.js: This is the first component which loads and redirect the user to its correct dstination based on the URL routes. 
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
