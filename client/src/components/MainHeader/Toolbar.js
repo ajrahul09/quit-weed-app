@@ -30,7 +30,9 @@ const Navigation = (props) => {
           <DrawerToggleButton click={props.drawerClickHandler} />
         </div>
         <div className="toolbar__logo">
-          <Link to="/">QUITWEED.ORG</Link>
+          <Link to="/">
+            <div id="app-logo"></div>
+          </Link>
         </div>
         <div className="spacer" />
         <div className="toolbar_navigation-items">
