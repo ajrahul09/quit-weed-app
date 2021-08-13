@@ -139,13 +139,19 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.26);
 }
 
-@media (max-width: 768px) {
+.alternatives-external-icon {
+    position: relative;
+    top: 3px;
+    left: 2px;
+}
+
+@media (max-width: 1024px) {
     .toolbar_navigation-items {
         display: none;
     }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .toolbar__toggle-button {
         display: none;
     }
