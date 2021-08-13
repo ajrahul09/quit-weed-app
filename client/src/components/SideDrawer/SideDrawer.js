@@ -43,7 +43,7 @@ const SideDrawer = props => {
             )}
             {ctx.isLoggedIn && updatedProfile && (
               <li>
-                <Link to="/dailyLog">DailyLog</Link>
+                <Link to="/dailyLog">Daily Log</Link>
               </li>
             )}
             {ctx.isLoggedIn && updatedProfile && (
