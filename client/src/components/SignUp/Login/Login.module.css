@@ -44,6 +44,22 @@
   color: green;
 }
 
+.or {
+  text-align: center;
+  margin: 1rem;
+}
+
+.autoLoginBtn {
+  background: orange;
+  border: 1px solid orange;
+  width: 13rem;
+}
+
+.autoLoginBtn:hover {
+  background: dodgerblue;
+  border: dodgerblue;
+}
+
 @keyframes shake {
   0% { -webkit-transform: translate(4px, 0px) rotate(0deg); } 
   10% { -webkit-transform: translate(-3px, 0px) rotate(0deg); }

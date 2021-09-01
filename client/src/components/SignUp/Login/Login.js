@@ -28,6 +28,12 @@ const passReducer = (state, action) => {
   return { value: '', isValid: false };
 }
 
+const AUTO_LOGIN_KEY = "auto-login"
+const AUTO_LOGIN_EMAIL = process.env.REACT_APP_AUTO_LOGIN_EMAIL
+const AUTO_LOGIN_PASS = process.env.REACT_APP_AUTO_LOGIN_PASS
+
+console.log(AUTO_LOGIN_EMAIL)
+
 const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -86,8 +92,18 @@ const Login = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    
+    let email, pass;
+    if(AUTO_LOGIN_KEY === event.nativeEvent.submitter.name) {
+      email = AUTO_LOGIN_EMAIL
+      pass = AUTO_LOGIN_PASS
+    } else {
+      email = emailEntered.value
+      pass = passEntered.value
+    }
+
     setIsLoading(true);
-    const response = await authCtx.onLogin(emailEntered.value, passEntered.value);
+    const response = await authCtx.onLogin(email, pass);
     setIsLoading(false);
 
     if (!response.ok) {
@@ -143,6 +159,17 @@ const Login = (props) => {
               disabled={!formIsValid}
               isLoading={isLoading}>
               Login
+            </Button>
+          </div>
+          <div className={classes.or}>OR</div>
+          <div className={classes.actions}>
+            <Button
+              type="submit"
+              className={classes.autoLoginBtn}
+              disabled={false}
+              isLoading={isLoading}
+              name={AUTO_LOGIN_KEY}>
+              Auto-Login ⚡
             </Button>
           </div>
           <div className={classes.redirectToRegisterDiv}>

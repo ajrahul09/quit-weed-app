@@ -56,17 +56,6 @@ const SideDrawer = props => {
                 <Link to="/profileForm">Profile</Link>
               </li>
             )}
-            <li>
-                <a href="https://quitweed.vibraute.com" target="_blank">Alternatives
-                  <svg width="20px" height="20px" viewBox="0 0 24 24" className="alternatives-external-icon">
-                    <g stroke-width="2.1" stroke="#4b8c1a" fill="none"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="17 13.5 17 19.5 5 19.5 5 7.5 11 7.5"></polyline>
-                      <path d="M14,4.5 L20,4.5 L20,10.5 M20,4.5 L11,13.5"></path>
-                    </g>
-                  </svg>
-                </a>
-              </li>
             {!ctx.isLoggedIn && (
               <li>
                 <Link to="/login">Login
