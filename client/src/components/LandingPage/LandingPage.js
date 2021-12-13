@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import { withRouter } from 'react-router';
+import AuthContext from '../../contexts/user-context';
 
 import styles from './LandingPage.module.css';
 
-const LandingPage = () => {
+const AUTO_LOGIN_EMAIL = process.env.REACT_APP_AUTO_LOGIN_EMAIL
+const AUTO_LOGIN_PASS = process.env.REACT_APP_AUTO_LOGIN_PASS
+
+const LandingPage = props => {
+
+    const authCtx = useContext(AuthContext);
+
+    const submitHandler = async () => {
+
+        let email = AUTO_LOGIN_EMAIL, pass = AUTO_LOGIN_PASS
+
+        const response = await authCtx.onLogin(email, pass);
+        
+        if (!response.ok) {
+            return;
+        }
+        return props.history.push("/home");
+    };
+
+    useEffect(() => {
+        submitHandler()
+    }, [])
+
     return (
         <div className={styles.landingPage_container}>
             <div className={styles.image_div}></div>
@@ -30,4 +54,4 @@ const LandingPage = () => {
     )
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);
